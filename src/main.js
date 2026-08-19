@@ -35,6 +35,10 @@ camera.position.set(-8, 78, 96);
 
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.06).texture;
+// RoomEnvironment is a bright studio box. At full strength it reads as daylight
+// pouring in and turns every steel panel into a mirror, so keep it as a subtle
+// grounding reflection only.
+scene.environmentIntensity = 0.3;
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -48,7 +52,7 @@ const { stations, curve, pucks, qcBranch, qcPucks, air, walls, ceiling } = build
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.34, 0.7, 0.85);
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.16, 0.6, 0.95);
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
@@ -416,8 +420,8 @@ function tick() {
     const u = (t * flowRate + i / pucks.length) % 1;
     curve.getPointAt(u, tmp);
     p.position.set(tmp.x, tmp.y + 0.42 + Math.sin(t * 3 + i) * 0.05, tmp.z);
-    // calm teal product when in control, hot red as the defect rate climbs
-    p.material.color.setRGB(0.20 + risk * 0.80, 0.66 - risk * 0.42, 0.58 - risk * 0.50);
+    // muted teal product when in control, hot red only as the defect rate climbs
+    p.material.color.setRGB(0.14 + risk * 0.76, 0.46 - risk * 0.28, 0.40 - risk * 0.34);
     p.scale.setScalar(0.85 + 0.15 * Math.sin(t * 6 + i));
   }
   for (let i = 0; i < qcPucks.length; i++) {
@@ -437,7 +441,7 @@ function tick() {
       if (arr[i * 3 + 1] < m.y0) arr[i * 3 + 1] = m.y1;
     }
     air.attr.needsUpdate = true;
-    air.pts.material.opacity = 0.10 + Math.min(0.3, params.airChanges / 140);
+    air.pts.material.opacity = 0.05 + Math.min(0.16, params.airChanges / 250);
   }
 
   // ---- machines ----
@@ -457,8 +461,8 @@ function tick() {
     }
     if (d.vials) d.vials.position.x = (t * params.fillSpeed * 0.11) % 0.66;
     if (d.needle) d.needle.position.y = 3.6 - 0.12 * Math.abs(Math.sin(t * params.fillSpeed * 0.5));
-    if (d.laf) d.laf.material.opacity = 0.18 + Math.min(0.4, params.airChanges / 110) + 0.05 * Math.sin(t * 2);
-    if (d.lamp) d.lamp.material.opacity = 0.6 + 0.4 * (params.inspectRigor / 100);
+    if (d.laf) d.laf.material.opacity = 0.06 + Math.min(0.14, params.airChanges / 240) + 0.015 * Math.sin(t * 2);
+    if (d.lamp) d.lamp.material.opacity = 0.3 + 0.25 * (params.inspectRigor / 100);
     if (d.beacon2) {
       // hot cell warning lamp: only runs during an actual deviation
       d.beacon2.visible = h > 0.15 && Math.sin(t * (3 + h * 8)) > -0.2;

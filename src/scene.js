@@ -21,24 +21,26 @@ export const PAL = {
 const std = (color, o = {}) => new THREE.MeshStandardMaterial({
   color,
   metalness: o.m ?? 0.35,
-  roughness: o.r ?? 0.5,
+  // Floor the roughness and cap the reflection strength. Without this the
+  // polished steel reads as a hall of mirrors reflecting the environment probe.
+  roughness: Math.max(0.3, o.r ?? 0.5),
   transparent: o.o !== undefined,
   opacity: o.o ?? 1,
   emissive: new THREE.Color(o.e ?? 0x000000),
   emissiveIntensity: o.ei ?? 1,
-  envMapIntensity: o.env ?? 1,
+  envMapIntensity: Math.min(0.85, o.env ?? 1),
 });
 
 const phys = (color, o = {}) => new THREE.MeshPhysicalMaterial({
   color,
   metalness: 0,
-  roughness: o.r ?? 0.08,
+  roughness: Math.max(0.2, o.r ?? 0.08),
   transmission: 0.9,
   thickness: 0.35,
   ior: 1.5,
   transparent: true,
   opacity: o.o ?? 1,
-  envMapIntensity: 1.4,
+  envMapIntensity: 0.45,
 });
 
 const box = (w, h, d, mat) => new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
@@ -52,20 +54,20 @@ const basic = (color, opacity) => new THREE.MeshBasicMaterial({
 // ---------------------------------------------------------------------------
 // Signage & screen textures
 // ---------------------------------------------------------------------------
-function makeLabel(text, sub, accent = '#3ee0c4') {
+function makeLabel(text, sub, accent = '#3f7d74') {
   const cv = document.createElement('canvas');
   cv.width = 768; cv.height = 200;
   const g = cv.getContext('2d');
-  g.fillStyle = 'rgba(8,14,24,0.86)';
+  g.fillStyle = 'rgba(7,12,20,0.9)';
   g.beginPath(); g.roundRect(6, 6, 756, 188, 24); g.fill();
-  g.strokeStyle = accent; g.lineWidth = 4; g.stroke();
+  g.strokeStyle = 'rgba(122,150,172,0.34)'; g.lineWidth = 3; g.stroke();
   g.fillStyle = accent;
-  g.beginPath(); g.roundRect(8, 8, 14, 184, 7); g.fill();
-  g.fillStyle = '#eef6ff';
+  g.beginPath(); g.roundRect(8, 8, 12, 184, 6); g.fill();
+  g.fillStyle = '#c9d8e6';
   g.font = '600 60px "Segoe UI", Arial, sans-serif';
   g.textAlign = 'center';
   g.fillText(text, 396, 90, 690);
-  g.fillStyle = '#8fb6d6';
+  g.fillStyle = '#6f8698';
   g.font = '400 38px "Segoe UI", Arial, sans-serif';
   g.fillText(sub, 396, 148, 690);
   const tex = new THREE.CanvasTexture(cv);
@@ -137,8 +139,10 @@ function screenTexture(kind) {
   return t;
 }
 function screen(w, h, kind) {
+  // Screens are emissive panels, but they must not act as scene lights: keep
+  // them tone-mapped and slightly dimmed so they do not trip the bloom pass.
   return new THREE.Mesh(new THREE.PlaneGeometry(w, h),
-    new THREE.MeshBasicMaterial({ map: screenTexture(kind), toneMapped: false }));
+    new THREE.MeshBasicMaterial({ map: screenTexture(kind), color: 0x8f9aa6 }));
 }
 
 // ---------------------------------------------------------------------------
@@ -192,7 +196,7 @@ function hepaCeiling(x, z, w, d, y = 5.6) {
   const g = new THREE.Group();
   const nx = Math.max(1, Math.round(w / 2.4)), nz = Math.max(1, Math.round(d / 2.4));
   const cw = w / nx, cd = d / nz;
-  const hepaMat = std(0xe9f1fa, { m: 0.2, r: 0.7, o: 0.34, e: 0x9fd0ff, ei: 0.4 });
+  const hepaMat = std(0xe9f1fa, { m: 0.2, r: 0.7, o: 0.34, e: 0x9fd0ff, ei: 0.1 });
   const panMat = std(0x66738a, { m: 0.2, r: 0.75, o: 0.16 });
   hepaMat.depthWrite = false; panMat.depthWrite = false;
   for (let i = 0; i < nx; i++) for (let j = 0; j < nz; j++) {
@@ -227,7 +231,7 @@ function partition(group, a, b, opts = {}) {
   if (cursor < 1) segs.push([cursor, 1]);
 
   const panelMat = std(opts.color ?? PAL.wallPanel, { m: 0.12, r: 0.62, env: 0.55 });
-  const glassMat = std(PAL.glass, { m: 0.05, r: 0.06, o: 0.16, env: 2.2 });
+  const glassMat = std(PAL.glass, { m: 0.05, r: 0.06, o: 0.16, env: 0.65 });
   const faded = m => {
     const f = m.clone();
     f.transparent = true; f.opacity = 0.06; f.depthWrite = false;
@@ -265,9 +269,9 @@ function partition(group, a, b, opts = {}) {
     const fx = x1 + (x2 - x1) * d, fz = z1 + (z2 - z1) * d;
     const frame = box(doorW + 0.3, 0.22, th * 1.2, std(PAL.steelDark, { m: 0.7, r: 0.4 }));
     frame.position.set(fx, 3.0, fz); frame.rotation.y = ang; group.add(frame);
-    const leaf = box(doorW, 2.8, 0.07, std(PAL.glass, { m: 0.05, r: 0.05, o: 0.2, env: 2.4 }));
+    const leaf = box(doorW, 2.8, 0.07, std(PAL.glass, { m: 0.05, r: 0.05, o: 0.2, env: 0.7 }));
     leaf.position.set(fx, 1.42, fz); leaf.rotation.y = ang; group.add(leaf);
-    const strip = box(doorW, 0.06, 0.1, basic(PAL.accent, 0.9));
+    const strip = box(doorW, 0.06, 0.1, basic(0x2e6f66, 0.5));
     strip.position.set(fx, 2.86, fz); strip.rotation.y = ang; group.add(strip);
   }
 }
@@ -291,9 +295,9 @@ const builders = {
       half.position.y = 2.0 + dy; g.add(half);
     }
     const coil = new THREE.Mesh(new THREE.TorusGeometry(3.05, 0.42, 14, 46),
-      std(0xd08a4a, { m: 0.95, r: 0.28, e: 0x4a2a10, ei: 0.5 }));
+      std(0xd08a4a, { m: 0.95, r: 0.28, e: 0x4a2a10, ei: 0.15 }));
     coil.rotation.x = Math.PI / 2; coil.position.y = 2.0; g.add(coil);
-    const beamRing = new THREE.Mesh(new THREE.TorusGeometry(2.5, 0.13, 10, 60), basic(0x6fe9ff));
+    const beamRing = new THREE.Mesh(new THREE.TorusGeometry(2.5, 0.13, 10, 60), basic(0x3f93a8));
     beamRing.rotation.x = Math.PI / 2; beamRing.position.y = 2.0; g.add(beamRing);
     g.userData.beam = beamRing;
     g.userData.spin = coil;
@@ -327,9 +331,9 @@ const builders = {
       const post = box(0.16, 2.3, 2.6, steel);
       post.position.set(-1 + sx * 2.42, 2.0, -1.2); g.add(post);
     }
-    const sash = box(4.7, 1.5, 0.07, std(PAL.glass, { m: 0.05, r: 0.04, o: 0.2, env: 2.5 }));
+    const sash = box(4.7, 1.5, 0.07, std(PAL.glass, { m: 0.05, r: 0.04, o: 0.2, env: 0.7 }));
     sash.position.set(-1, 2.45, -0.02); g.add(sash);
-    const lafGlow = box(4.6, 0.08, 2.4, basic(0xdff2ff, 0.45));
+    const lafGlow = box(4.6, 0.08, 2.4, basic(0xaecbdd, 0.14));
     lafGlow.position.set(-1, 3.08, -1.2); g.add(lafGlow);
     g.userData.laf = lafGlow;
 
@@ -370,7 +374,7 @@ const builders = {
       cell.position.set(x, 2.65, 0); g.add(cell);
       const leadCore = tint(box(4.0, 1.4, 3.6, std(PAL.lead, { m: 0.55, r: 0.45 })));
       leadCore.position.set(x, 1.3, 0); g.add(leadCore);
-      const win = box(2.4, 1.35, 0.5, std(0xa9e6b6, { m: 0.1, r: 0.05, o: 0.32, env: 2.5 }));
+      const win = box(2.4, 1.35, 0.5, std(0xa9e6b6, { m: 0.1, r: 0.05, o: 0.32, env: 0.7 }));
       win.position.set(x, 3.15, 1.72); g.add(win);
       const wf = box(2.65, 1.6, 0.12, std(PAL.steelDark, { m: 0.8, r: 0.35 }));
       wf.position.set(x, 3.15, 1.9); g.add(wf);
@@ -394,7 +398,7 @@ const builders = {
       }
     }
     g.add(ductRun(-5.6, -1.2, 5.6, -1.2, 6.9, 0.9));
-    const mod = box(2.2, 1.1, 1.1, std(0x27354a, { m: 0.6, r: 0.35, e: 0x0d3b52, ei: 0.7 }));
+    const mod = box(2.2, 1.1, 1.1, std(0x27354a, { m: 0.6, r: 0.35, e: 0x0d3b52, ei: 0.2 }));
     mod.position.set(0, 3.1, 0.55); g.add(mod);
     const trolley = box(2.2, 0.1, 1.4, std(PAL.steel, { m: 0.9, r: 0.25 }));
     trolley.position.set(6.0, 1.0, 2.6); g.add(trolley);
@@ -416,7 +420,7 @@ const builders = {
     for (let i = 0; i < 4; i++) {
       const m = tint(box(2.4, 0.52, 1.7, std(shades[i], { m: 0.3, r: 0.45 })));
       m.position.set(-3.0, 1.28 + i * 0.56, -1.4); g.add(m);
-      const led = box(0.42, 0.09, 0.05, basic(i === 3 ? 0x41f0c0 : 0x4ea8ff));
+      const led = box(0.42, 0.09, 0.05, basic(i === 3 ? 0x2f8f78 : 0x2f6f9e));
       led.position.set(-2.1, 1.28 + i * 0.56, -0.53); g.add(led);
     }
     const mon = box(2.3, 1.4, 0.09, std(0x0d151f, { m: 0.5, r: 0.3 }));
@@ -431,7 +435,7 @@ const builders = {
     bore.position.set(2.6, 2.2, -1.4); g.add(bore);
     const elec = box(1.0, 0.42, 0.75, std(0xe6ecf3, { m: 0.3, r: 0.5 }));
     elec.position.set(4.0, 1.2, -1.4); g.add(elec);
-    const eled = box(0.6, 0.16, 0.04, basic(0x41f0c0));
+    const eled = box(0.6, 0.16, 0.04, basic(0x2f8f78));
     eled.position.set(4.0, 1.24, -1.02); g.add(eled);
 
     const dew = tint(cyl(0.7, 0.7, 1.4, std(0xcfd8e2, { m: 0.9, r: 0.25 }), 22));
@@ -459,13 +463,13 @@ const builders = {
     plinth.position.set(0, 0.45, 0); g.add(plinth);
     const body = tint(box(10.6, 1.5, 3.6, skin.clone()));
     body.position.set(0, 1.62, 0); g.add(body);
-    const chamber = box(10.2, 2.0, 3.3, std(PAL.glass, { m: 0.03, r: 0.04, o: 0.13, env: 2.6 }));
+    const chamber = box(10.2, 2.0, 3.3, std(PAL.glass, { m: 0.03, r: 0.04, o: 0.13, env: 0.7 }));
     chamber.position.set(0, 3.4, 0); g.add(chamber);
-    const front = box(10.2, 2.0, 0.08, std(PAL.glass, { m: 0.03, r: 0.03, o: 0.22, env: 3 }));
+    const front = box(10.2, 2.0, 0.08, std(PAL.glass, { m: 0.03, r: 0.03, o: 0.22, env: 0.8 }));
     front.position.set(0, 3.4, 1.68); g.add(front);
     const plenum = tint(box(10.9, 0.85, 3.9, skin.clone()));
     plenum.position.set(0, 4.75, 0); g.add(plenum);
-    const uda = box(9.8, 0.08, 3.1, basic(0xe6f6ff, 0.42));
+    const uda = box(9.8, 0.08, 3.1, basic(0xaecbdd, 0.13));
     uda.position.set(0, 4.28, 0); g.add(uda);
     g.userData.laf = uda;
 
@@ -530,14 +534,14 @@ const builders = {
     blk.position.set(-2.2, 2.2, -1.17); g.add(blk);
     const wht = box(1.5, 1.7, 0.06, std(0xf7fafd, { m: 0.05, r: 0.85 }));
     wht.position.set(-0.6, 2.2, -1.17); g.add(wht);
-    const lampbar = box(3.2, 0.14, 0.14, basic(0xffffff));
+    const lampbar = box(3.2, 0.14, 0.14, basic(0xcfd8e0, 0.55));
     lampbar.position.set(-1.4, 3.45, -1.0); g.add(lampbar);
     g.userData.lamp = lampbar;
     const camArm = box(0.22, 1.5, 0.22, std(PAL.steelDark, { m: 0.8, r: 0.35 }));
     camArm.position.set(0.9, 1.9, -1.0); g.add(camArm);
     const cam = cyl(0.24, 0.24, 0.7, std(0x1b2430, { m: 0.7, r: 0.3 }), 16);
     cam.rotation.x = Math.PI / 2.4; cam.position.set(0.9, 2.4, -0.6); g.add(cam);
-    const lens = cyl(0.16, 0.16, 0.1, basic(0x4ea8ff), 16);
+    const lens = cyl(0.16, 0.16, 0.1, basic(0x2f6f9e), 16);
     lens.rotation.x = Math.PI / 2.4; lens.position.set(0.9, 2.16, -0.35); g.add(lens);
     const lab = tint(box(2.2, 1.7, 1.6, std(0x46536b, { m: 0.6, r: 0.4 })));
     lab.position.set(3.0, 1.6, 0); g.add(lab);
@@ -580,7 +584,7 @@ const builders = {
     const rail2 = rail.clone(); rail2.position.z = -0.55; g.add(rail2);
     const shut = tint(box(0.3, 3.4, 4.4, std(0x5d6673, { m: 0.7, r: 0.5 })));
     shut.position.set(9.6, 1.7, 0.4); g.add(shut);
-    const stripe = box(0.34, 0.35, 4.4, std(PAL.hazard, { m: 0.3, r: 0.6, e: 0x3a2c00, ei: 0.4 }));
+    const stripe = box(0.34, 0.35, 4.4, std(PAL.hazard, { m: 0.3, r: 0.6, e: 0x3a2c00, ei: 0.15 }));
     stripe.position.set(9.6, 0.35, 0.4); g.add(stripe);
     g.add(at(operator(PAL.gownB), -0.4, 0, 2.2));
   },
@@ -634,7 +638,7 @@ function buildFacility(scene) {
   const shell = new THREE.Group();
 
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(220, 150),
-    std(PAL.epoxy, { m: 0.25, r: 0.32, env: 1.1 }));
+    std(PAL.epoxy, { m: 0.05, r: 0.72, env: 0.35 }));
   floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; shell.add(floor);
 
   const grid = new THREE.GridHelper(220, 110, 0x1d2a3d, 0x151c28);
@@ -648,17 +652,17 @@ function buildFacility(scene) {
     { x: -5, z: -12, w: 14.5, d: 16.5, c: 0xff8a3d },
     { x: 10, z: -12, w: 14.5, d: 16.5, c: 0xff4d8d },
     { x: 24, z: -12, w: 13, d: 16.5, c: 0x4ea8ff },
-    { x: -3, z: -1, w: 55, d: 4.6, c: 0x3ee0c4 },
+    { x: -3, z: -1, w: 55, d: 4.6, c: 0x7d8b9c },
     { x: 4, z: 10, w: 23.5, d: 16, c: 0x4ea8ff },
     { x: 24, z: 10, w: 13, d: 16, c: 0x8b93a0 },
     { x: -17, z: 10, w: 15.5, d: 16, c: 0x8b93a0 },
   ];
   for (const z of zones) {
     const m = new THREE.Mesh(new THREE.PlaneGeometry(z.w, z.d),
-      new THREE.MeshBasicMaterial({ color: z.c, transparent: true, opacity: 0.06 }));
+      new THREE.MeshBasicMaterial({ color: z.c, transparent: true, opacity: 0.045 }));
     m.rotation.x = -Math.PI / 2; m.position.set(z.x, 0.03, z.z); shell.add(m);
     const e = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(z.w - 0.3, z.d - 0.3)),
-      new THREE.LineBasicMaterial({ color: z.c, transparent: true, opacity: 0.35 }));
+      new THREE.LineBasicMaterial({ color: z.c, transparent: true, opacity: 0.16 }));
     e.rotation.x = -Math.PI / 2; e.position.set(z.x, 0.05, z.z); shell.add(e);
   }
 
@@ -694,16 +698,16 @@ function buildFacility(scene) {
   }
 
   for (const [x, z] of [[-12.5, -3.0], [2.5, -3.0], [17.5, -3.0], [-8, 2.0], [16.5, 2.0]]) {
-    const l = box(1.1, 0.14, 0.14, basic(0x41f0c0, 0.9));
+    const l = box(1.1, 0.14, 0.14, basic(0x2e6f66, 0.45));
     l.position.set(x, 3.1, z); shell.add(l);
   }
 
-  const markMat = new THREE.MeshBasicMaterial({ color: 0x3ee0c4, transparent: true, opacity: 0.2 });
+  const markMat = new THREE.MeshBasicMaterial({ color: 0x5f7183, transparent: true, opacity: 0.14 });
   for (const zz of [-2.9, 0.9]) {
     const s = new THREE.Mesh(new THREE.PlaneGeometry(55, 0.16), markMat);
     s.rotation.x = -Math.PI / 2; s.position.set(-3, 0.06, zz); shell.add(s);
   }
-  const hazMat = new THREE.MeshBasicMaterial({ color: PAL.hazard, transparent: true, opacity: 0.28 });
+  const hazMat = new THREE.MeshBasicMaterial({ color: PAL.hazard, transparent: true, opacity: 0.16 });
   for (const [x, z, w, d] of [[-32, -12, 13.5, 16], [-5, -12, 14, 16]]) {
     for (const s of [-1, 1]) {
       const m = new THREE.Mesh(new THREE.PlaneGeometry(w, 0.2), hazMat);
@@ -741,8 +745,8 @@ function airflow(scene, boxes) {
   gr.addColorStop(0, 'rgba(255,255,255,0.95)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
   g2.fillStyle = gr; g2.fillRect(0, 0, 32, 32);
   const pts = new THREE.Points(geo, new THREE.PointsMaterial({
-    size: 0.15, map: new THREE.CanvasTexture(cv), transparent: true, opacity: 0.45,
-    depthWrite: false, blending: THREE.AdditiveBlending, color: 0xbfe6ff, toneMapped: false,
+    size: 0.13, map: new THREE.CanvasTexture(cv), transparent: true, opacity: 0.2,
+    depthWrite: false, blending: THREE.AdditiveBlending, color: 0x8fb4cc, toneMapped: false,
   }));
   scene.add(pts);
   return { pts, meta, attr: geo.attributes.position };
@@ -768,7 +772,7 @@ export function buildScene(scene) {
   // soft fill from the audience side so no room reads as a black hole
   const front = new THREE.DirectionalLight(0xdceaff, 0.75);
   front.position.set(-4, 34, 62); scene.add(front);
-  const fill = new THREE.PointLight(0x3ee0c4, 0.5, 130);
+  const fill = new THREE.PointLight(0xa8c4d8, 0.28, 130);
   fill.position.set(-6, 14, 8); scene.add(fill);
 
   buildFacility(scene);
@@ -823,7 +827,7 @@ export function buildScene(scene) {
   ].map(p => new THREE.Vector3(...p));
   const curve = new THREE.CatmullRomCurve3(flow, false, 'catmullrom', 0.25);
   const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 420, 0.22, 12, false),
-    std(0x2c3b52, { m: 0.9, r: 0.3, e: 0x0b2230, ei: 0.6 }));
+    std(0x2c3b52, { m: 0.9, r: 0.3, e: 0x0b2230, ei: 0.15 }));
   scene.add(tube);
   const supMat = std(PAL.steelDark, { m: 0.8, r: 0.4 });
   for (let i = 0; i <= 26; i++) {
@@ -837,19 +841,19 @@ export function buildScene(scene) {
     new THREE.Vector3(1.5, 1.3, 4), new THREE.Vector3(4, 1.2, 7.5),
   ]);
   const qcTube = new THREE.Mesh(new THREE.TubeGeometry(qcBranch, 140, 0.12, 10, false),
-    std(0x2a4a5e, { m: 0.9, r: 0.3, e: 0x0d3346, ei: 0.8 }));
+    std(0x2a4a5e, { m: 0.9, r: 0.3, e: 0x0d3346, ei: 0.2 }));
   scene.add(qcTube);
 
   const puckGeo = new THREE.SphereGeometry(0.34, 18, 14);
   const pucks = [];
   for (let i = 0; i < 20; i++) {
-    const p = new THREE.Mesh(puckGeo, basic(0x5ff0d0));
+    const p = new THREE.Mesh(puckGeo, basic(0x2f8f78));
     scene.add(p); pucks.push(p);
   }
   const qcGeo = new THREE.SphereGeometry(0.2, 14, 10);
   const qcPucks = [];
   for (let i = 0; i < 5; i++) {
-    const p = new THREE.Mesh(qcGeo, basic(0x5a9ec4));
+    const p = new THREE.Mesh(qcGeo, basic(0x3b6f8c));
     scene.add(p); qcPucks.push(p);
   }
 
