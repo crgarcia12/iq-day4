@@ -1,0 +1,16 @@
+{
+  "name": "rlt-command-center",
+  "version": "1.0.0",
+  "description": "Interactive 3D digital twin of a GMP radioligand therapy (RLT) production line producing [177Lu]Lu-PSMA-617.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "test": "node scripts/test-sim.mjs"
+  },
+  "keywords": ["radioligand-therapy", "radiopharmaceutical", "digital-twin", "three.js", "gmp"],
+  "license": "MIT",
+  "devDependencies": {
+    "puppeteer": "^25.6.0"
+  }
+}

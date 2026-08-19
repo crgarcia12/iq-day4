@@ -1,0 +1,5 @@
+node_modules/
+package-lock.json
+verify.cjs
+v-*.png
+shot-*.png

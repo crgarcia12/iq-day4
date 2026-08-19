@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RLT Command Center — Radioligand Therapy Production Line</title>
+<meta name="description" content="Interactive 3D digital twin of a GMP radioligand therapy (RLT) production line producing [177Lu]Lu-PSMA-617." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>%E2%98%A2</text></svg>" />
+<link rel="preconnect" href="https://unpkg.com" crossorigin />
+<link rel="stylesheet" href="./src/style.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="boot"><div class="ring"></div><div>Initialising RLT line digital twin…</div></div>
+
+<header id="topbar">
+  <div class="brand">
+    <h1><span class="rad">☢</span> <span class="hl">RLT</span> Command Center</h1>
+    <div class="sub">Radioligand Therapy · GMP production line digital twin · [¹⁷⁷Lu]Lu-PSMA-617</div>
+  </div>
+  <span class="pill mono" id="isotope-pill">¹⁷⁷Lu</span>
+  <span class="pill mono" id="batch-pill">—</span>
+  <span class="pill ok" id="status">In control</span>
+  <div class="spacer"></div>
+  <button class="btn active" data-preset="nominal">Nominal</button>
+  <button class="btn" data-preset="optimum">Optimised</button>
+  <button class="btn danger" data-preset="stress">Stress the line</button>
+  <span class="sep"></span>
+  <button class="btn" id="btn-overview">Overview</button>
+  <button class="btn" id="btn-tour">Guided tour</button>
+  <button class="btn" id="btn-quality">Quality: high</button>
+</header>
+
+<section id="kpis" class="panel">
+  <h2>Line performance</h2>
+  <div class="kpi-grid" id="kpi-grid"></div>
+</section>
+
+<section id="consumables" class="panel">
+  <h2>Supply &amp; waste consumption</h2>
+  <div id="cons-list"></div>
+</section>
+
+<section id="alerts" class="panel">
+  <h2>Deviations &amp; quality risks <span class="badge" id="alert-count">0</span></h2>
+  <div id="alert-list"></div>
+</section>
+
+<div id="hint">Drag to orbit · scroll to zoom · <b>click any machine</b> to open its critical process parameters</div>
+<div id="tooltip"></div>
+
+<div id="modal"><div class="card" id="card-body"></div></div>
+
+<script type="module" src="./src/main.js"></script>
+<script>
+  addEventListener('load', () => setTimeout(() => document.getElementById('boot').classList.add('gone'), 900));
+</script>
+</body>
+</html>
