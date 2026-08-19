@@ -5,3 +5,6 @@ v-*.png
 shot-*.png
 shots.cjs
 s-*.png
+*-check.cjs
+d-*.png
+g-*.png

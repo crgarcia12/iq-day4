@@ -537,6 +537,22 @@ window.__rlt = {
   get result() { return result; },
   stationIds: STATIONS.map(s => s.id),
   open: openModal,
+  // Status-lamp state, so the exception-based signalling can be asserted
+  // rather than eyeballed: lit stations should only be faulted or hovered ones.
+  lamps() {
+    const out = {};
+    for (const st of STATIONS) {
+      const s = stations[st.id];
+      out[st.id] = {
+        lit: !!s.lit,
+        halo: +(s.halo.visible ? s.halo.material.opacity : 0).toFixed(3),
+        light: +s.glow.intensity.toFixed(2),
+        tint: +(s.emiss || 0).toFixed(2),
+        health: +(s.targetH || 0).toFixed(2),
+      };
+    }
+    return out;
+  },
   project(id) {
     const s = stations[id];
     if (!s) return null;
