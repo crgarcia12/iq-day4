@@ -25,13 +25,13 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
+renderer.toneMappingExposure = 1.12;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 document.getElementById('app').appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(46, innerWidth / innerHeight, 0.5, 600);
-camera.position.set(-16, 76, 98);
+camera.position.set(-8, 78, 96);
 
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.06).texture;
@@ -39,12 +39,12 @@ scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.06).texture;
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.06;
-controls.target.set(-11, 2, -4);
+controls.target.set(-6, 2, -4);
 controls.maxPolarAngle = Math.PI / 2.15;
 controls.minDistance = 10;
 controls.maxDistance = 190;
 
-const { stations, curve, pucks, qcBranch, qcPucks, air, walls } = buildScene(scene);
+const { stations, curve, pucks, qcBranch, qcPucks, air, walls, ceiling } = buildScene(scene);
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
@@ -380,7 +380,7 @@ tourBtn.onclick = () => {
 };
 document.getElementById('btn-overview').onclick = () => {
   stopTour(); closeModal();
-  flyTo(new THREE.Vector3(-11, 2, -4), new THREE.Vector3(-16, 76, 98), 1100);
+  flyTo(new THREE.Vector3(-6, 2, -4), new THREE.Vector3(-5, 45, 58), 1100);
 };
 
 const qualityBtn = document.getElementById('btn-quality');
@@ -493,6 +493,11 @@ function tick() {
     if (w.material !== want) w.material = want;
   }
 
+  // Ceiling only closes in when the camera moves down onto a station. From the
+  // overview distance it is hidden so the floorplan and machines stay readable.
+  const showCeiling = camera.position.distanceTo(controls.target) < 46;
+  for (const c of ceiling) if (c.visible !== showCeiling) c.visible = showCeiling;
+
   (bloom.enabled ? composer : renderer).render(scene, camera);
 }
 
@@ -500,7 +505,7 @@ function tick() {
 recompute();
 tick();
 // cinematic entry
-flyTo(new THREE.Vector3(-11, 2, -4), new THREE.Vector3(-14, 47, 68), 2200);
+flyTo(new THREE.Vector3(-6, 2, -4), new THREE.Vector3(-5, 45, 58), 2400);
 
 // Test/automation surface: project a station's body to screen coordinates.
 window.__rlt = {

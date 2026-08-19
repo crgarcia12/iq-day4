@@ -187,18 +187,22 @@ function ductRun(x1, z1, x2, z2, y, size, mat) {
   return m;
 }
 
+const CEILING = [];
 function hepaCeiling(x, z, w, d, y = 5.6) {
   const g = new THREE.Group();
   const nx = Math.max(1, Math.round(w / 2.4)), nz = Math.max(1, Math.round(d / 2.4));
   const cw = w / nx, cd = d / nz;
-  const hepaMat = std(0xe9f1fa, { m: 0.2, r: 0.7, o: 0.5, e: 0x9fd0ff, ei: 0.3 });
-  const panMat = std(0x5c6878, { m: 0.2, r: 0.75, o: 0.3 });
+  const hepaMat = std(0xe9f1fa, { m: 0.2, r: 0.7, o: 0.34, e: 0x9fd0ff, ei: 0.4 });
+  const panMat = std(0x66738a, { m: 0.2, r: 0.75, o: 0.16 });
+  hepaMat.depthWrite = false; panMat.depthWrite = false;
   for (let i = 0; i < nx; i++) for (let j = 0; j < nz; j++) {
     const isHepa = (i + j) % 3 === 0;
     const p = box(cw * 0.94, 0.12, cd * 0.94, isHepa ? hepaMat : panMat);
     p.position.set(x - w / 2 + cw * (i + 0.5), y, z - d / 2 + cd * (j + 0.5));
+    p.castShadow = false;
     g.add(p);
   }
+  CEILING.push(g);
   return g;
 }
 
@@ -751,16 +755,19 @@ export function buildScene(scene) {
   scene.background = new THREE.Color(0x05080f);
   scene.fog = new THREE.Fog(0x05080f, 110, 260);
 
-  scene.add(new THREE.HemisphereLight(0xbdd8ff, 0x0a0f18, 0.5));
-  const key = new THREE.DirectionalLight(0xffffff, 2.0);
+  scene.add(new THREE.HemisphereLight(0xbdd8ff, 0x0a0f18, 0.85));
+  const key = new THREE.DirectionalLight(0xffffff, 2.1);
   key.position.set(34, 54, 30); key.castShadow = true;
   key.shadow.mapSize.set(1536, 1536);
   key.shadow.camera.left = -80; key.shadow.camera.right = 80;
   key.shadow.camera.top = 75; key.shadow.camera.bottom = -75;
   key.shadow.camera.far = 220; key.shadow.bias = -0.0009;
   scene.add(key);
-  const rim = new THREE.DirectionalLight(0x6fb6ff, 0.75);
+  const rim = new THREE.DirectionalLight(0x6fb6ff, 0.85);
   rim.position.set(-42, 26, -34); scene.add(rim);
+  // soft fill from the audience side so no room reads as a black hole
+  const front = new THREE.DirectionalLight(0xdceaff, 0.75);
+  front.position.set(-4, 34, 62); scene.add(front);
   const fill = new THREE.PointLight(0x3ee0c4, 0.5, 130);
   fill.position.set(-6, 14, 8); scene.add(fill);
 
@@ -843,7 +850,7 @@ export function buildScene(scene) {
     { x: -19, z: -13.2, w: 4.5, d: 2.3, y0: 1.3, y1: 3.05 },
   ]);
 
-  return { stations, curve, pucks, qcBranch, qcPucks, air, key, walls: WALLS };
+  return { stations, curve, pucks, qcBranch, qcPucks, air, key, walls: WALLS, ceiling: CEILING };
 }
 
 export { THREE };

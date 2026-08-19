@@ -3,3 +3,5 @@ package-lock.json
 verify.cjs
 v-*.png
 shot-*.png
+shots.cjs
+s-*.png
