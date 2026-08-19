@@ -787,18 +787,27 @@ export function buildScene(scene) {
       if (o.userData.tint) { o.material = o.material.clone(); tintMats.push(o.material); }
     });
 
-    const halo = new THREE.Mesh(new THREE.RingGeometry(5.4, 6.9, 64),
-      new THREE.MeshBasicMaterial({ color: 0x3ee0c4, transparent: true, opacity: 0.3, side: THREE.DoubleSide, toneMapped: false }));
-    halo.rotation.x = -Math.PI / 2; halo.position.y = 0.1; g.add(halo);
-    const inner = new THREE.Mesh(new THREE.CircleGeometry(5.4, 48),
-      new THREE.MeshBasicMaterial({ color: 0xff4d4d, transparent: true, opacity: 0, side: THREE.DoubleSide, toneMapped: false }));
-    inner.rotation.x = -Math.PI / 2; inner.position.y = 0.085; g.add(inner);
+    // Floor status decals. They are overlays, so they must never write depth —
+    // otherwise at zero opacity they still punch holes in the zone tint below.
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: 0x3ee0c4, transparent: true, opacity: 0, side: THREE.DoubleSide,
+      toneMapped: false, depthWrite: false,
+    });
+    const halo = new THREE.Mesh(new THREE.RingGeometry(5.4, 6.9, 64), haloMat);
+    halo.rotation.x = -Math.PI / 2; halo.position.y = 0.1; halo.renderOrder = 3; g.add(halo);
+    const innerMat = new THREE.MeshBasicMaterial({
+      color: 0xff4d4d, transparent: true, opacity: 0, side: THREE.DoubleSide,
+      toneMapped: false, depthWrite: false,
+    });
+    const inner = new THREE.Mesh(new THREE.CircleGeometry(5.4, 48), innerMat);
+    inner.rotation.x = -Math.PI / 2; inner.position.y = 0.085; inner.renderOrder = 2; g.add(inner);
 
     const mast = cyl(0.09, 0.09, 2.2, std(PAL.steelDark, { m: 0.8, r: 0.4 }), 8);
     mast.position.set(0, 6.7, 0); g.add(mast);
-    const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.5, 22, 16), basic(0x3ee0c4));
-    beacon.position.set(0, 8.0, 0); g.add(beacon);
-    const glow = new THREE.PointLight(0x3ee0c4, 2, 28); glow.position.set(0, 8.0, 0); g.add(glow);
+    // status lamp — dark until a deviation, a hover or a selection lights it
+    const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.5, 22, 16), basic(0x222b36));
+    beacon.position.set(0, 8.0, 0); beacon.scale.setScalar(0.5); g.add(beacon);
+    const glow = new THREE.PointLight(0x3ee0c4, 0, 28); glow.position.set(0, 8.0, 0); g.add(glow);
 
     const lbl = makeLabel(st.short, st.zone);
     lbl.position.set(0, 9.9, 0); g.add(lbl);
@@ -840,7 +849,7 @@ export function buildScene(scene) {
   const qcGeo = new THREE.SphereGeometry(0.2, 14, 10);
   const qcPucks = [];
   for (let i = 0; i < 5; i++) {
-    const p = new THREE.Mesh(qcGeo, basic(0x7fd0ff));
+    const p = new THREE.Mesh(qcGeo, basic(0x5a9ec4));
     scene.add(p); qcPucks.push(p);
   }
 

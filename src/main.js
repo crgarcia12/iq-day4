@@ -48,7 +48,7 @@ const { stations, curve, pucks, qcBranch, qcPucks, air, walls, ceiling } = build
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.52, 0.72, 0.72);
+const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.34, 0.7, 0.85);
 composer.addPass(bloom);
 composer.addPass(new OutputPass());
 
@@ -131,14 +131,9 @@ function applyHealth() {
     s.targetH = h;
     s.color = c;
     s.halo.material.color.copy(c);
-    s.beacon.material.color.copy(c);
     s.glow.color.copy(c);
     s.inner.material.color.copy(c);
-    s.inner.material.opacity = h * 0.13;
-    for (const m of s.tintMats) {
-      m.emissive.copy(c);
-      m.emissiveIntensity = h * 0.75;
-    }
+    s.emiss = -1; // force the render loop to re-apply the body tint colour
   }
 }
 
@@ -421,7 +416,8 @@ function tick() {
     const u = (t * flowRate + i / pucks.length) % 1;
     curve.getPointAt(u, tmp);
     p.position.set(tmp.x, tmp.y + 0.42 + Math.sin(t * 3 + i) * 0.05, tmp.z);
-    p.material.color.setRGB(0.36 + risk * 0.64, 0.94 - risk * 0.6, 0.82 - risk * 0.74);
+    // calm teal product when in control, hot red as the defect rate climbs
+    p.material.color.setRGB(0.20 + risk * 0.80, 0.66 - risk * 0.42, 0.58 - risk * 0.50);
     p.scale.setScalar(0.85 + 0.15 * Math.sin(t * 6 + i));
   }
   for (let i = 0; i < qcPucks.length; i++) {
@@ -441,7 +437,7 @@ function tick() {
       if (arr[i * 3 + 1] < m.y0) arr[i * 3 + 1] = m.y1;
     }
     air.attr.needsUpdate = true;
-    air.pts.material.opacity = 0.18 + Math.min(0.5, params.airChanges / 90);
+    air.pts.material.opacity = 0.10 + Math.min(0.3, params.airChanges / 140);
   }
 
   // ---- machines ----
@@ -464,20 +460,48 @@ function tick() {
     if (d.laf) d.laf.material.opacity = 0.18 + Math.min(0.4, params.airChanges / 110) + 0.05 * Math.sin(t * 2);
     if (d.lamp) d.lamp.material.opacity = 0.6 + 0.4 * (params.inspectRigor / 100);
     if (d.beacon2) {
-      d.beacon2.material.color.copy(s.color || COL_OK);
-      d.beacon2.visible = Math.sin(t * (3 + h * 8)) > (h > 0.2 ? -0.2 : 0.75);
+      // hot cell warning lamp: only runs during an actual deviation
+      d.beacon2.visible = h > 0.15 && Math.sin(t * (3 + h * 8)) > -0.2;
+      if (d.beacon2.visible) d.beacon2.material.color.copy(s.color);
     }
 
-    // status pulse — faster and brighter with risk
-    const pulse = 0.55 + 0.45 * Math.sin(t * (1.8 + h * 9));
-    s.beacon.scale.setScalar(0.78 + h * 0.55 * pulse + pulse * 0.14);
-    s.glow.intensity = (1.3 + h * 7) * (0.6 + 0.4 * pulse);
-    s.halo.material.opacity = (0.2 + h * 0.55) * (0.68 + 0.32 * pulse);
-    s.halo.scale.setScalar(1 + h * 0.07 * pulse);
-    s.inner.material.opacity = h * 0.14 * (0.6 + 0.4 * pulse);
-    if (hovered === st.id) {
-      s.halo.material.opacity = Math.min(1, s.halo.material.opacity + 0.35);
-      s.halo.scale.setScalar(1.05);
+    // Status signalling. A station that is in control is dark — the beacon is an
+    // unlit lamp. Light only comes from a real deviation, a hover, or the station
+    // currently open in the drawer.
+    const alarm = h > 0.02;
+    const attention = alarm ? h : (hovered === st.id || openStation === st.id ? 0.4 : 0);
+
+    if (attention < 0.001) {
+      if (s.lit !== false) {
+        s.beacon.material.color.setHex(0x222b36);
+        s.beacon.scale.setScalar(0.5);
+        s.glow.intensity = 0;
+        s.halo.visible = false;
+        s.inner.visible = false;
+        s.lit = false;
+      }
+    } else {
+      s.lit = true;
+      s.halo.visible = true;
+      const pulse = alarm ? 0.5 + 0.5 * Math.sin(t * (1.8 + h * 9)) : 1;
+      s.beacon.material.color.copy(s.color);
+      s.beacon.scale.setScalar(alarm ? 0.55 + h * 0.45 * (0.7 + 0.3 * pulse) : 0.8);
+      s.glow.intensity = alarm ? h * 5.5 * (0.45 + 0.55 * pulse) : 1.0;
+      s.halo.material.opacity = alarm ? (0.16 + h * 0.5) * (0.65 + 0.35 * pulse) : 0.55;
+      s.halo.scale.setScalar(alarm ? 1 + h * 0.06 * pulse : 1.02);
+      s.inner.visible = alarm;
+      if (alarm) s.inner.material.opacity = h * 0.12 * (0.6 + 0.4 * pulse);
+    }
+
+    // Body tint: dark while in control, lit by a deviation, and softly picked
+    // out on hover so you can tell what you are about to click.
+    const wantEmiss = alarm ? h * 0.75 : (attention > 0 ? 0.3 : 0);
+    if (s.emiss !== wantEmiss) {
+      for (const m of s.tintMats) {
+        m.emissive.copy(s.color);
+        m.emissiveIntensity = wantEmiss;
+      }
+      s.emiss = wantEmiss;
     }
   }
 
