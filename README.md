@@ -1,6 +1,6 @@
-# 🏭 Suncare Line 3 — Operations Command Center
+# 🏭 Caldova — Suncare Line 3 Operations Command Center
 
-An interactive **3D command center for a sunscreen production line**, built to demo the
+An interactive **3D command center for Caldova's sunscreen production line**, built to demo the
 **Persona 2 (Production Line Manager)** half of a two-persona story:
 
 > The Marketing Manager sees unusual demand for Hydration Sunscreen, learns from **Web IQ** that

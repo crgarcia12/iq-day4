@@ -43,6 +43,12 @@ canvas { display: block; }
 .brand { display: flex; flex-direction: column; min-width: 0; }
 #topbar h1 { font-size: 16px; margin: 0; font-weight: 650; white-space: nowrap; }
 #topbar h1 .hl { color: var(--accent); }
+#topbar h1 .logo {
+  font-weight: 800; letter-spacing: 2.2px; font-size: 15px; margin-right: 7px;
+  background: linear-gradient(96deg, #ffc247 0%, #ff8a3d 52%, #e0a24a 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: var(--amber);
+}
 #topbar .sub { font-size: 11px; color: var(--muted); margin-top: 2px; white-space: nowrap; }
 .spacer { flex: 1; }
 

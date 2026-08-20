@@ -1,4 +1,4 @@
-# Research compendium — suncare line digital twin
+# Research compendium — Caldova suncare line digital twin
 
 Sources and calibration behind **Suncare Line 3 — Operations Command Center**
 (Persona 2, Production Line Manager). Every constant in `src/line.js` traces back here.

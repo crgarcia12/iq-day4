@@ -640,6 +640,32 @@ function ceilingGrid(x, z, w, d, y = 6.6) {
   return g;
 }
 
+function brandSign() {
+  const cv = document.createElement('canvas');
+  cv.width = 1024; cv.height = 256;
+  const g = cv.getContext('2d');
+  g.clearRect(0, 0, 1024, 256);
+  const grad = g.createLinearGradient(0, 0, 1024, 0);
+  grad.addColorStop(0, '#ffc247');
+  grad.addColorStop(0.55, '#ff9a42');
+  grad.addColorStop(1, '#e0a24a');
+  g.fillStyle = grad;
+  g.font = '800 132px "Segoe UI", Arial, sans-serif';
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.letterSpacing = '14px';
+  g.fillText('CALDOVA', 512, 104);
+  g.fillStyle = 'rgba(190,210,228,0.75)';
+  g.font = '400 42px "Segoe UI", Arial, sans-serif';
+  g.letterSpacing = '8px';
+  g.fillText('SUNCARE  ·  LINE 3', 512, 196);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(26, 6.5),
+    new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.92 }));
+  return m;
+}
+
 function buildShell(scene) {
   const shell = new THREE.Group();
 
@@ -706,6 +732,11 @@ function buildShell(scene) {
     const s = new THREE.Mesh(new THREE.PlaneGeometry(82, 0.16), aisle);
     s.rotation.x = -Math.PI / 2; s.position.set(-2, 0.06, zz); shell.add(s);
   }
+
+  // company signage on the rear wall of the packing hall
+  const sign = brandSign();
+  sign.position.set(12, 8.6, -21.6);
+  shell.add(sign);
 
   scene.add(shell);
   return shell;

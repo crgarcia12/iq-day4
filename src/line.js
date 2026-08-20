@@ -1,5 +1,5 @@
 // ===========================================================================
-// Hydration Sunscreen SPF 50 — production line model
+// Caldova — Hydration Sunscreen SPF 50 production line model
 // Persona 2: Production Line Manager
 //
 // The analytical heart of the demo is the coupling between LINE SPEED and

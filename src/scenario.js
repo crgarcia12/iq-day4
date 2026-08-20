@@ -38,7 +38,7 @@ export const ONTOLOGY = {
   nodes: [
     { id: 'sku', label: 'Product', sub: 'HS-SPF50-200', kind: 'entity', x: 0.06, y: 0.20 },
     { id: 'demand', label: 'DemandPlan', sub: 'March · 2.62 M units', kind: 'entity', x: 0.06, y: 0.62 },
-    { id: 'line', label: 'ProductionLine', sub: 'Suncare Line 3', kind: 'entity', x: 0.30, y: 0.40 },
+    { id: 'line', label: 'ProductionLine', sub: 'Caldova Suncare Line 3', kind: 'entity', x: 0.30, y: 0.40 },
     { id: 'asset', label: 'Asset', sub: 'FL-02 Servo Filler', kind: 'asset', x: 0.53, y: 0.22 },
     { id: 'comp', label: 'Component', sub: 'Main drive bearing', kind: 'asset', x: 0.53, y: 0.62 },
     { id: 'signal', label: 'ConditionSignal', sub: 'Vibration mm/s RMS', kind: 'signal', x: 0.76, y: 0.13 },
@@ -86,7 +86,7 @@ export function buildSteps(params) {
       id: 'situation',
       agent: 'you',
       nav: 'Situation',
-      title: 'Suncare Line 3 is running to plan',
+      title: 'Caldova Suncare Line 3 is running to plan',
       prompt: null,
       answer: `Line 3 is producing ${PRODUCT_NAME} at 100 % of rated speed — ${fmt(at100.daily)} units a day. ` +
         `The committed demand plan for the month is ${fmtM(DEMAND.baseline)} units and the line covers it. ` +
@@ -113,7 +113,7 @@ export function buildSteps(params) {
         'Resolving the campaign agent’s forecast into SKU-level orders',
       ],
       answer: `The Marketing Manager has approved a booster campaign for ${PRODUCT_NAME} and the campaign agent has ` +
-        `already loaded the expected orders. Your committed demand for the month rises from ${fmtM(DEMAND.baseline)} ` +
+        `already loaded the expected orders. Caldova's committed demand for the month rises from ${fmtM(DEMAND.baseline)} ` +
         `to ${fmtM(demandTotal)} units — an uplift of ${fmt(DEMAND.campaignUplift)} units, ${(DEMAND.campaignUplift / DEMAND.baseline * 100).toFixed(0)} %.`,
       bullets: [
         `Campaign uplift +${fmt(DEMAND.campaignUplift)} units`,
@@ -121,9 +121,9 @@ export function buildSteps(params) {
         `Orders already firm-planned in the MPS`,
       ],
       citations: [
-        { icon: '💬', src: 'Teams · Suncare S&OP', txt: '“Booster campaign approved for Hydration SPF 50 — loading orders now.”', meta: 'Marketing Manager · today 07:04' },
-        { icon: '📄', src: 'Campaign brief — Hydration Booster.docx', txt: 'Uplift modelled at +17 % on the March baseline for the SPF 50 200 ml SKU.', meta: 'SharePoint · Marketing / Campaigns' },
-        { icon: '📊', src: 'Demand plan FY26 P03.xlsx', txt: 'Firm planned orders written back by the campaign agent at 07:12.', meta: 'OneLake shortcut · Planning' },
+        { icon: '💬', src: 'Teams · Caldova Suncare S&OP', txt: '“Booster campaign approved for Hydration SPF 50 — loading orders now.”', meta: 'Marketing Manager · today 07:04' },
+        { icon: '📄', src: 'Campaign brief — Hydration Booster.docx', txt: 'Uplift modelled at +17 % on the March baseline for the SPF 50 200 ml SKU.', meta: 'SharePoint · Caldova Marketing / Campaigns' },
+        { icon: '📊', src: 'Demand plan FY26 P03.xlsx', txt: 'Firm planned orders written back by the campaign agent at 07:12.', meta: 'OneLake shortcut · Caldova Planning' },
       ],
       apply: { campaignApplied: true },
       focus: null,
@@ -169,7 +169,7 @@ export function buildSteps(params) {
       prompt: 'Place the production orders needed to cover the new demand plan.',
       thinking: [
         'Expanding demand plan into a master production schedule',
-        'Running capacity requirements planning against Suncare Line 3',
+        'Running capacity requirements planning against Caldova Suncare Line 3',
         'Checking the asset calendar for planned outages',
         'Detected condition-based order PM-4471 on FL-02',
       ],
@@ -242,7 +242,7 @@ export function buildSteps(params) {
       title: 'Plan committed — orders released',
       prompt: 'Apply it. Drop the line to 90 % and reschedule PM-4471.',
       thinking: [
-        'Writing line speed setpoint to Suncare Line 3',
+        'Writing line speed setpoint to Caldova Suncare Line 3',
         'Rescheduling PM-4471 against the revised condition forecast',
         'Re-running capacity requirements planning',
         'Releasing production orders',

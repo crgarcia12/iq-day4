@@ -23,7 +23,7 @@ expected orders.
 
 ## Step 0 — Situation
 
-> "This is Suncare Line 3. Nine stations, from raw material dispensing through to palletising."
+> "This is Caldova's Suncare Line 3. Nine stations, from raw material dispensing through to palletising."
 
 - Line runs at **100 % of rated speed** — 120 bottles/min.
 - Committed demand **2.12 M units**, capacity **2.21 M** — comfortable.
