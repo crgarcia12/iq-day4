@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RLT Command Center — Radioligand Therapy Production Line</title>
-<meta name="description" content="Interactive 3D digital twin of a GMP radioligand therapy (RLT) production line producing [177Lu]Lu-PSMA-617." />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>%E2%98%A2</text></svg>" />
+<title>Suncare Line 3 — Operations Command Center</title>
+<meta name="description" content="Production line manager command center: absorbing a marketing campaign surge with Fabric IQ, Work IQ and Web IQ." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>%F0%9F%8F%AD</text></svg>" />
 <link rel="preconnect" href="https://unpkg.com" crossorigin />
-<link rel="stylesheet" href="./src/style.css" />
+<link rel="stylesheet" href="./src/ui.css" />
 <script type="importmap">
 {
   "imports": {
@@ -19,24 +19,17 @@
 </head>
 <body>
 <div id="app"></div>
-
-<div id="boot"><div class="ring"></div><div>Initialising RLT line digital twin…</div></div>
+<div id="boot"><div class="ring"></div><div>Connecting to Suncare Line 3…</div></div>
 
 <header id="topbar">
   <div class="brand">
-    <h1><span class="rad">☢</span> <span class="hl">RLT</span> Command Center</h1>
-    <div class="sub">Radioligand Therapy · GMP production line digital twin · [¹⁷⁷Lu]Lu-PSMA-617</div>
+    <h1><span class="ico">🏭</span> Suncare <span class="hl">Line 3</span> — Operations Command Center</h1>
+    <div class="sub">Production Line Manager · <span id="product-pill">Hydration Sunscreen SPF 50</span></div>
   </div>
-  <span class="pill mono" id="isotope-pill">¹⁷⁷Lu</span>
-  <span class="pill mono" id="batch-pill">—</span>
-  <span class="pill ok" id="status">In control</span>
+  <span class="pill mono" id="rate-pill">100% · 120 bpm</span>
+  <span class="pill ok" id="status">Plan feasible</span>
   <div class="spacer"></div>
-  <button class="btn active" data-preset="nominal">Nominal</button>
-  <button class="btn" data-preset="optimum">Optimised</button>
-  <button class="btn danger" data-preset="stress">Stress the line</button>
-  <span class="sep"></span>
   <button class="btn" id="btn-overview">Overview</button>
-  <button class="btn" id="btn-tour">Guided tour</button>
   <button class="btn" id="btn-quality">Quality: high</button>
 </header>
 
@@ -46,21 +39,56 @@
 </section>
 
 <section id="consumables" class="panel">
-  <h2>Supply &amp; waste consumption</h2>
+  <h2>Material &amp; pack consumption</h2>
   <div id="cons-list"></div>
 </section>
 
-<section id="alerts" class="panel">
-  <h2>Deviations &amp; quality risks <span class="badge" id="alert-count">0</span></h2>
-  <div id="alert-list"></div>
+<section id="planner" class="panel">
+  <div class="planner-grid">
+    <div class="plan-col">
+      <h2>Month plan · 30 days</h2>
+      <canvas id="timeline"></canvas>
+    </div>
+    <div class="plan-col narrow">
+      <h2>Monthly output vs line speed</h2>
+      <canvas id="curve"></canvas>
+      <div class="legend">
+        <span><i class="sw ok"></i>PM outside month</span>
+        <span><i class="sw bad"></i>PM inside month</span>
+      </div>
+    </div>
+    <div class="plan-col rate">
+      <h2>Line speed setpoint</h2>
+      <div class="rate-big" id="rate-value">100%</div>
+      <input type="range" id="rate-slider" min="55" max="105" step="1" value="100" />
+      <div class="rate-sub" id="rate-sub"></div>
+    </div>
+  </div>
 </section>
 
-<div id="hint">Drag to orbit · scroll to zoom · <b>click any machine</b> to open its critical process parameters</div>
+<aside id="agent" class="panel">
+  <div class="agent-top">
+    <h2>Agent workspace</h2>
+    <div class="step-ctl">
+      <button class="btn icon" id="btn-prev" title="Previous (←)">‹</button>
+      <button class="btn icon" id="btn-next" title="Next (→)">›</button>
+      <button class="btn icon" id="btn-restart" title="Restart">⟲</button>
+    </div>
+  </div>
+  <div id="agent-nav"></div>
+  <h3 id="step-title"></h3>
+  <div id="agent-body"></div>
+</aside>
+
+<section id="onto-panel" class="hidden">
+  <div class="onto-title">Fabric IQ · ontology traversal</div>
+  <canvas id="onto-canvas"></canvas>
+</section>
+
 <div id="tooltip"></div>
+<div id="drawer"><div class="card" id="drawer-body"></div></div>
 
-<div id="modal"><div class="card" id="card-body"></div></div>
-
-<script type="module" src="./src/main.js"></script>
+<script type="module" src="./src/app.js"></script>
 <script>
   addEventListener('load', () => setTimeout(() => document.getElementById('boot').classList.add('gone'), 900));
 </script>

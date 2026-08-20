@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "test": "node scripts/test-sim.mjs"
+    "test": "node scripts/test-line.mjs"
   },
   "keywords": [
     "radioligand-therapy",

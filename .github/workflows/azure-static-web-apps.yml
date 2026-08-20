@@ -22,8 +22,8 @@ jobs:
 
       # The app is plain ES modules loaded from a CDN import map — nothing to build.
       # Only smoke-test that the process model still evaluates correctly.
-      - name: Smoke-test the process model
-        run: node scripts/test-sim.mjs
+      - name: Smoke-test the production model and demo narrative
+        run: node scripts/test-line.mjs
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
