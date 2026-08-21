@@ -18,6 +18,6 @@
   "license": "MIT",
   "devDependencies": {
     "pngjs": "^7.0.0",
-    "puppeteer": "^25.6.0"
+    "puppeteer": "^25.7.0"
   }
 }

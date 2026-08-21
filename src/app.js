@@ -6,11 +6,12 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import {
-  STATIONS, DEFAULTS, DEMAND, PRODUCT, HORIZON_DAYS, PM_DURATION_DAYS,
-  simulate, rateCurve, optimalRate, planAt, damageFactor,
+  STATIONS, DEFAULTS, DEMAND, PRODUCT, HORIZON_DAYS, PM,
+  simulate, rateCurve, optimalRate, planAt, damageFactor, applyFabric,
 } from './line.js';
 import { buildSteps, AGENTS, ONTOLOGY } from './scenario.js';
 import { buildScene } from './factory.js';
+import { loadFabricSnapshot, provenance, FABRIC } from './fabric.js';
 
 // ---------------------------------------------------------------------------
 // State
@@ -710,7 +711,7 @@ function tick() {
     } else {
       s.lit = true; s.halo.visible = true;
       const pulse = alarm ? 0.5 + 0.5 * Math.sin(t * (1.8 + h * 9)) : 1;
-      s.beacon.material.color.copy(s.color);
+      if (s.color) s.beacon.material.color.copy(s.color);
       s.beacon.scale.setScalar(alarm ? 0.55 + h * 0.45 * (0.7 + 0.3 * pulse) : 0.8);
       s.glow.intensity = alarm ? h * 5.5 * (0.45 + 0.55 * pulse) : 1.0;
       s.halo.material.opacity = alarm ? (0.16 + h * 0.5) * (0.65 + 0.35 * pulse) : 0.55;
@@ -718,7 +719,7 @@ function tick() {
       if (alarm) s.inner.material.opacity = h * 0.12 * (0.6 + 0.4 * pulse);
     }
     const wantEmiss = alarm ? h * 0.75 : (attention > 0 ? 0.3 : 0);
-    if (s.emiss !== wantEmiss) {
+    if (s.emiss !== wantEmiss && s.color) {
       for (const m of s.tintMats) { m.emissive.copy(s.color); m.emissiveIntensity = wantEmiss; }
       s.emiss = wantEmiss;
     }
@@ -738,10 +739,31 @@ function tick() {
 }
 
 // ---------------------------------------------------------------------------
-document.getElementById('product-pill').textContent = `${PRODUCT.name} · ${PRODUCT.pack}`;
-gotoStep(0, false);
+// ---------------------------------------------------------------------------
+// Boot: pull the Fabric snapshot first so every number on screen comes from
+// the lakehouse, then build the narrative from those values.
+// ---------------------------------------------------------------------------
+async function boot() {
+  await loadFabricSnapshot();
+  const bound = applyFabric(FABRIC);
+  steps = buildSteps(params);               // rebuild with Fabric-bound numbers
+
+  document.getElementById('product-pill').textContent = `${PRODUCT.name} · ${PRODUCT.pack}`;
+  const prov = document.getElementById('provenance');
+  if (prov) {
+    prov.textContent = provenance();
+    prov.className = bound ? 'prov live' : 'prov offline';
+    prov.title = bound
+      ? `Workspace ${FABRIC.source.workspaceId}\nLakehouse ${FABRIC.source.lakehouseId}\nQueried through the SQL analytics endpoint`
+      : 'Could not read src/data/fabric-snapshot.json — showing built-in demo values';
+  }
+  gotoStep(0, false);
+  setTimeout(() => { drawTimeline(); drawCurve(); }, 60);
+}
+
+boot();
+recompute();   // synchronous first pass so the render loop has colours to read
 tick();
-setTimeout(() => { drawTimeline(); drawCurve(); }, 60);
 
 window.__ops = {
   params, simulate, planAt, damageFactor,

@@ -147,5 +147,49 @@ for (let r = 55; r <= 105; r++) {
 }
 check('all parameter extremes stay finite and in range', bad.length === 0, bad.slice(0, 4).join('; '));
 
+console.log('\n── Fabric snapshot ──');
+import { readFileSync, existsSync } from 'node:fs';
+const snapPath = new URL('../src/data/fabric-snapshot.json', import.meta.url);
+if (!existsSync(snapPath)) {
+  check('fabric snapshot exists', false, 'run infra/export_snapshot.ps1');
+} else {
+  const snap = JSON.parse(readFileSync(snapPath, 'utf8'));
+  check('snapshot names its Fabric source',
+    snap.source?.system === 'Microsoft Fabric' && !!snap.source.workspaceId && !!snap.source.lakehouseId,
+    `${snap.source?.workspace}/${snap.source?.lakehouse}`);
+  check('snapshot carries an export timestamp', !!snap.source?.exportedUtc, snap.source?.exportedUtc);
+  check('demand totals reconcile',
+    Math.abs((+snap.demand.baseline + +snap.demand.uplift) - +snap.demand.committed) < 5,
+    `${snap.demand.baseline} + ${snap.demand.uplift} = ${snap.demand.committed}`);
+  check('lakehouse demand matches the model within 1 %',
+    Math.abs(+snap.demand.committed - (DEMAND.baseline + DEMAND.campaignUplift)) / +snap.demand.committed < 0.01,
+    `${(+snap.demand.committed).toLocaleString()}`);
+  check('constraint asset is FL-02 in ISO 20816 zone C',
+    snap.asset.asset_id === 'FL-02' && snap.condition.iso20816_zone === 'C',
+    `${snap.condition.vibration_mm_s} mm/s`);
+  check('asset damage matches the model default within 1 pt',
+    Math.abs(+snap.condition.damage_consumed_pct - DEFAULTS.damageConsumed) < 1,
+    `${snap.condition.damage_consumed_pct} % vs ${DEFAULTS.damageConsumed} %`);
+  check('90 days of telemetry present', snap.telemetry.length >= 88, `${snap.telemetry.length} days`);
+  check('telemetry shows a bearing replacement reset',
+    Math.min(...snap.telemetry.map(t => +t.damage)) < 10, 'sawtooth present');
+  check('open maintenance order is condition based',
+    snap.maintenance.order_id === 'PM-4471' && snap.maintenance.trigger_type === 'condition_based');
+  check('rate scenarios span 70-105 %', snap.scenarios.length === 36, `${snap.scenarios.length} points`);
+  const s90 = snap.scenarios.find(r => +r.line_rate_pct === 90);
+  const s100 = snap.scenarios.find(r => +r.line_rate_pct === 100);
+  check('lakehouse agrees: 90 % beats 100 % on monthly output',
+    +s90.monthly_units > +s100.monthly_units,
+    `${(+s90.monthly_units).toLocaleString()} vs ${(+s100.monthly_units).toLocaleString()}`);
+  check('lakehouse agrees: PM leaves the month at 90 %',
+    +s90.lost_days === 0 && +s100.lost_days === 5);
+  check('lakehouse RUL matches the model at 90 %',
+    Math.abs(+s90.rul_days - 39.1) < 1.5, `${s90.rul_days} d`);
+  check('ontology has 9 entities and 11 edges',
+    snap.ontology.entities.length === 9 && snap.ontology.edges.length === 11);
+  check('every ontology entity is bound to a lakehouse table',
+    snap.ontology.entities.every(e => e.bound_table && e.bound_column));
+}
+
 console.log(failed ? `\n${failed} check(s) FAILED\n` : '\nAll checks passed\n');
 process.exit(failed ? 1 : 0);

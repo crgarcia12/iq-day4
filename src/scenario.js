@@ -7,7 +7,7 @@
 //   Fabric IQ  — Operations Agent (monitor + act) and Ontology (reason)
 // ===========================================================================
 
-import { DEMAND, PM_DURATION_DAYS, HORIZON_DAYS, planAt, optimalRate, DEGRADATION, damageFactor } from './line.js';
+import { DEMAND, PM, HORIZON_DAYS, planAt, optimalRate, DEGRADATION, damageFactor } from './line.js';
 
 const PRODUCT_NAME = 'Hydration Sunscreen SPF 50';
 
@@ -94,7 +94,7 @@ export function buildSteps(params) {
       bullets: [
         `Line speed 100 % of rated (120 bottles/min)`,
         `Committed demand ${fmtM(DEMAND.baseline)} units`,
-        `PM-4471 open against FL-02, ${PM_DURATION_DAYS}-day window`,
+        `${PM.orderId} open against FL-02, ${PM.durationDays}-day window`,
       ],
       apply: { campaignApplied: false, maintenanceDeferred: false, lineRate: 100 },
       focus: null,
@@ -174,18 +174,18 @@ export function buildSteps(params) {
         'Detected condition-based order PM-4471 on FL-02',
       ],
       answer: `I cannot commit the orders. Capacity requirements planning fails for the month. ` +
-        `FL-02 reaches its condition limit on day ${at100.pmStartDay}, which opens the ${PM_DURATION_DAYS}-day ` +
+        `FL-02 reaches its condition limit on day ${at100.pmStartDay}, which opens the ${PM.durationDays}-day ` +
         `maintenance window PM-4471 and removes ${at100.lostDays} production days. That leaves ` +
         `${at100.productionDays} production days at ${fmt(at100.daily)} units/day — ${fmtM(at100.monthly)} units ` +
         `against committed demand of ${fmtM(demandTotal)}. You are ${fmt(shortfall)} units short.`,
       bullets: [
-        `PM-4471 opens day ${at100.pmStartDay}, runs ${PM_DURATION_DAYS} days`,
+        `PM-4471 opens day ${at100.pmStartDay}, runs ${PM.durationDays} days`,
         `Production days ${HORIZON_DAYS} → ${at100.productionDays}`,
         `Shortfall ${fmt(shortfall)} units · OTIF at risk`,
       ],
       citations: [
         { icon: '🏭', src: 'Ontology · Asset FL-02', txt: `Condition signal at ${at100.vibration.toFixed(1)} mm/s RMS, ISO 20816 zone ${at100.zone.zone}. Remaining useful life ${at100.rul.toFixed(1)} days at current speed.`, meta: 'Fabric IQ · bound to OneLake asset telemetry' },
-        { icon: '🔧', src: 'Maintenance order PM-4471', txt: `Condition-based intervention on the FL-02 main drive. Duration ${PM_DURATION_DAYS} days, line down for the full window.`, meta: 'Fabric IQ · maintenance entity' },
+        { icon: '🔧', src: 'Maintenance order PM-4471', txt: `Condition-based intervention on the FL-02 main drive. Duration ${PM.durationDays} days, line down for the full window.`, meta: 'Fabric IQ · maintenance entity' },
         { icon: '📦', src: 'Capacity requirements planning run', txt: `Requirement ${fmtM(demandTotal)} units exceeds available capacity ${fmtM(at100.monthly)} units.`, meta: 'Fabric IQ · Operations Agent' },
       ],
       apply: { campaignApplied: true, lineRate: 100, maintenanceDeferred: false },

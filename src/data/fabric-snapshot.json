@@ -1,0 +1,1359 @@
+{
+  "source": {
+    "system": "Microsoft Fabric",
+    "workspace": "caldova-iq",
+    "workspaceId": "287c2fa9-9239-4f6e-b416-9efa11a19c7e",
+    "lakehouse": "caldova_ops",
+    "lakehouseId": "34bec07c-63d7-4d27-b67e-8619cbbc6285",
+    "endpoint": "SQL analytics endpoint",
+    "exportedUtc": "2026-08-21T12:00:45Z",
+    "tool": "fabio"
+  },
+  "product": {
+    "sku": "HS-SPF50-200",
+    "product_name": "Hydration Sunscreen SPF 50",
+    "pack": "200 ml bottle",
+    "unit_price_gbp": 8.4,
+    "unit_margin_gbp": 3.1,
+    "case_pack": 12,
+    "cases_per_pallet": 84
+  },
+  "demand": {
+    "baseline": 2119997,
+    "uplift": 359998,
+    "committed": 2479995,
+    "plan_days": 30,
+    "plan_month": "2026-03-01T00:00:00"
+  },
+  "demandDaily": [
+    {
+      "plan_date": "2026-03-01",
+      "baseline_units": 30698,
+      "campaign_uplift_units": 5213,
+      "committed_units": 35911
+    },
+    {
+      "plan_date": "2026-03-02",
+      "baseline_units": 90030,
+      "campaign_uplift_units": 15288,
+      "committed_units": 105318
+    },
+    {
+      "plan_date": "2026-03-03",
+      "baseline_units": 92235,
+      "campaign_uplift_units": 15663,
+      "committed_units": 107898
+    },
+    {
+      "plan_date": "2026-03-04",
+      "baseline_units": 94218,
+      "campaign_uplift_units": 15999,
+      "committed_units": 110217
+    },
+    {
+      "plan_date": "2026-03-05",
+      "baseline_units": 95881,
+      "campaign_uplift_units": 16282,
+      "committed_units": 112163
+    },
+    {
+      "plan_date": "2026-03-06",
+      "baseline_units": 97142,
+      "campaign_uplift_units": 16496,
+      "committed_units": 113638
+    },
+    {
+      "plan_date": "2026-03-07",
+      "baseline_units": 34279,
+      "campaign_uplift_units": 5821,
+      "committed_units": 40100
+    },
+    {
+      "plan_date": "2026-03-08",
+      "baseline_units": 34382,
+      "campaign_uplift_units": 5838,
+      "committed_units": 40220
+    },
+    {
+      "plan_date": "2026-03-09",
+      "baseline_units": 98010,
+      "campaign_uplift_units": 16643,
+      "committed_units": 114653
+    },
+    {
+      "plan_date": "2026-03-10",
+      "baseline_units": 97280,
+      "campaign_uplift_units": 16519,
+      "committed_units": 113799
+    },
+    {
+      "plan_date": "2026-03-11",
+      "baseline_units": 96080,
+      "campaign_uplift_units": 16315,
+      "committed_units": 112395
+    },
+    {
+      "plan_date": "2026-03-12",
+      "baseline_units": 94467,
+      "campaign_uplift_units": 16042,
+      "committed_units": 110509
+    },
+    {
+      "plan_date": "2026-03-13",
+      "baseline_units": 92523,
+      "campaign_uplift_units": 15711,
+      "committed_units": 108234
+    },
+    {
+      "plan_date": "2026-03-14",
+      "baseline_units": 31619,
+      "campaign_uplift_units": 5369,
+      "committed_units": 36988
+    },
+    {
+      "plan_date": "2026-03-15",
+      "baseline_units": 30811,
+      "campaign_uplift_units": 5232,
+      "committed_units": 36043
+    },
+    {
+      "plan_date": "2026-03-16",
+      "baseline_units": 85704,
+      "campaign_uplift_units": 14554,
+      "committed_units": 100258
+    },
+    {
+      "plan_date": "2026-03-17",
+      "baseline_units": 83476,
+      "campaign_uplift_units": 14175,
+      "committed_units": 97651
+    },
+    {
+      "plan_date": "2026-03-18",
+      "baseline_units": 81456,
+      "campaign_uplift_units": 13832,
+      "committed_units": 95288
+    },
+    {
+      "plan_date": "2026-03-19",
+      "baseline_units": 79744,
+      "campaign_uplift_units": 13541,
+      "committed_units": 93285
+    },
+    {
+      "plan_date": "2026-03-20",
+      "baseline_units": 78424,
+      "campaign_uplift_units": 13317,
+      "committed_units": 91741
+    },
+    {
+      "plan_date": "2026-03-21",
+      "baseline_units": 27146,
+      "campaign_uplift_units": 4610,
+      "committed_units": 31756
+    },
+    {
+      "plan_date": "2026-03-22",
+      "baseline_units": 27018,
+      "campaign_uplift_units": 4588,
+      "committed_units": 31606
+    },
+    {
+      "plan_date": "2026-03-23",
+      "baseline_units": 77348,
+      "campaign_uplift_units": 13135,
+      "committed_units": 90483
+    },
+    {
+      "plan_date": "2026-03-24",
+      "baseline_units": 78010,
+      "campaign_uplift_units": 13247,
+      "committed_units": 91257
+    },
+    {
+      "plan_date": "2026-03-25",
+      "baseline_units": 79149,
+      "campaign_uplift_units": 13440,
+      "committed_units": 92589
+    },
+    {
+      "plan_date": "2026-03-26",
+      "baseline_units": 80710,
+      "campaign_uplift_units": 13705,
+      "committed_units": 94415
+    },
+    {
+      "plan_date": "2026-03-27",
+      "baseline_units": 82614,
+      "campaign_uplift_units": 14029,
+      "committed_units": 96643
+    },
+    {
+      "plan_date": "2026-03-28",
+      "baseline_units": 29669,
+      "campaign_uplift_units": 5038,
+      "committed_units": 34707
+    },
+    {
+      "plan_date": "2026-03-29",
+      "baseline_units": 30474,
+      "campaign_uplift_units": 5175,
+      "committed_units": 35649
+    },
+    {
+      "plan_date": "2026-03-30",
+      "baseline_units": 89400,
+      "campaign_uplift_units": 15181,
+      "committed_units": 104581
+    }
+  ],
+  "asset": {
+    "asset_id": "FL-02",
+    "asset_name": "Servo Piston Filler",
+    "component_id": "main_drive_bearing",
+    "component_type": "6312-C3 deep groove ball",
+    "rated_capacity": 120,
+    "resonance_knee_pct": 92.0,
+    "vibration_standard": "ISO 20816-3 Class II",
+    "damage_consumed_pct": 76.0,
+    "life_exponent": 3
+  },
+  "condition": {
+    "ts": "2026-02-28T23:00:00",
+    "line_rate_pct": 99.91,
+    "vibration_mm_s": 3.248,
+    "iso20816_zone": "C",
+    "bearing_temp_c": 42.92,
+    "drive_current_a": 18.32,
+    "damage_consumed_pct": 75.993
+  },
+  "telemetry": [
+    {
+      "d": "2025-12-01",
+      "vib": 3.315,
+      "damage": 5.993
+    },
+    {
+      "d": "2025-12-02",
+      "vib": 3.303,
+      "damage": 7.983
+    },
+    {
+      "d": "2025-12-03",
+      "vib": 3.307,
+      "damage": 9.99
+    },
+    {
+      "d": "2025-12-04",
+      "vib": 3.305,
+      "damage": 11.997
+    },
+    {
+      "d": "2025-12-05",
+      "vib": 3.297,
+      "damage": 13.997
+    },
+    {
+      "d": "2025-12-06",
+      "vib": 3.283,
+      "damage": 15.978
+    },
+    {
+      "d": "2025-12-07",
+      "vib": 3.306,
+      "damage": 17.985
+    },
+    {
+      "d": "2025-12-08",
+      "vib": 3.309,
+      "damage": 19.985
+    },
+    {
+      "d": "2025-12-09",
+      "vib": 3.306,
+      "damage": 21.99
+    },
+    {
+      "d": "2025-12-10",
+      "vib": 3.295,
+      "damage": 23.998
+    },
+    {
+      "d": "2025-12-11",
+      "vib": 3.305,
+      "damage": 25.998
+    },
+    {
+      "d": "2025-12-12",
+      "vib": 3.297,
+      "damage": 28.0
+    },
+    {
+      "d": "2025-12-13",
+      "vib": 3.305,
+      "damage": 29.99
+    },
+    {
+      "d": "2025-12-14",
+      "vib": 3.291,
+      "damage": 32.005
+    },
+    {
+      "d": "2025-12-15",
+      "vib": 3.304,
+      "damage": 34.007
+    },
+    {
+      "d": "2025-12-16",
+      "vib": 3.297,
+      "damage": 35.996
+    },
+    {
+      "d": "2025-12-17",
+      "vib": 3.3,
+      "damage": 37.993
+    },
+    {
+      "d": "2025-12-18",
+      "vib": 3.3,
+      "damage": 39.981
+    },
+    {
+      "d": "2025-12-19",
+      "vib": 3.294,
+      "damage": 41.981
+    },
+    {
+      "d": "2025-12-20",
+      "vib": 3.29,
+      "damage": 43.978
+    },
+    {
+      "d": "2025-12-21",
+      "vib": 3.294,
+      "damage": 45.968
+    },
+    {
+      "d": "2025-12-22",
+      "vib": 3.292,
+      "damage": 47.977
+    },
+    {
+      "d": "2025-12-23",
+      "vib": 3.288,
+      "damage": 49.983
+    },
+    {
+      "d": "2025-12-24",
+      "vib": 3.293,
+      "damage": 51.976
+    },
+    {
+      "d": "2025-12-25",
+      "vib": 3.303,
+      "damage": 53.98
+    },
+    {
+      "d": "2025-12-26",
+      "vib": 3.29,
+      "damage": 55.97
+    },
+    {
+      "d": "2025-12-27",
+      "vib": 3.306,
+      "damage": 57.98
+    },
+    {
+      "d": "2025-12-28",
+      "vib": 3.279,
+      "damage": 59.972
+    },
+    {
+      "d": "2025-12-29",
+      "vib": 3.335,
+      "damage": 61.983
+    },
+    {
+      "d": "2025-12-30",
+      "vib": 3.304,
+      "damage": 63.979
+    },
+    {
+      "d": "2025-12-31",
+      "vib": 3.282,
+      "damage": 65.976
+    },
+    {
+      "d": "2026-01-01",
+      "vib": 3.308,
+      "damage": 67.983
+    },
+    {
+      "d": "2026-01-02",
+      "vib": 3.287,
+      "damage": 69.975
+    },
+    {
+      "d": "2026-01-03",
+      "vib": 3.304,
+      "damage": 71.978
+    },
+    {
+      "d": "2026-01-04",
+      "vib": 3.3,
+      "damage": 73.979
+    },
+    {
+      "d": "2026-01-05",
+      "vib": 3.281,
+      "damage": 75.975
+    },
+    {
+      "d": "2026-01-06",
+      "vib": 3.287,
+      "damage": 77.955
+    },
+    {
+      "d": "2026-01-07",
+      "vib": 3.289,
+      "damage": 79.956
+    },
+    {
+      "d": "2026-01-08",
+      "vib": 3.316,
+      "damage": 81.964
+    },
+    {
+      "d": "2026-01-09",
+      "vib": 3.31,
+      "damage": 83.973
+    },
+    {
+      "d": "2026-01-10",
+      "vib": 3.296,
+      "damage": 85.961
+    },
+    {
+      "d": "2026-01-11",
+      "vib": 3.289,
+      "damage": 87.949
+    },
+    {
+      "d": "2026-01-12",
+      "vib": 3.286,
+      "damage": 89.932
+    },
+    {
+      "d": "2026-01-13",
+      "vib": 3.307,
+      "damage": 91.932
+    },
+    {
+      "d": "2026-01-14",
+      "vib": 3.286,
+      "damage": 93.937
+    },
+    {
+      "d": "2026-01-15",
+      "vib": 3.296,
+      "damage": 95.926
+    },
+    {
+      "d": "2026-01-16",
+      "vib": 3.287,
+      "damage": 97.924
+    },
+    {
+      "d": "2026-01-17",
+      "vib": 3.308,
+      "damage": 99.93
+    },
+    {
+      "d": "2026-01-18",
+      "vib": 3.284,
+      "damage": 100.0
+    },
+    {
+      "d": "2026-01-19",
+      "vib": 3.303,
+      "damage": 100.0
+    },
+    {
+      "d": "2026-01-20",
+      "vib": 3.3,
+      "damage": 100.0
+    },
+    {
+      "d": "2026-01-21",
+      "vib": 3.307,
+      "damage": 100.0
+    },
+    {
+      "d": "2026-01-22",
+      "vib": 3.299,
+      "damage": 2.003
+    },
+    {
+      "d": "2026-01-23",
+      "vib": 3.302,
+      "damage": 3.988
+    },
+    {
+      "d": "2026-01-24",
+      "vib": 3.295,
+      "damage": 5.983
+    },
+    {
+      "d": "2026-01-25",
+      "vib": 3.302,
+      "damage": 7.972
+    },
+    {
+      "d": "2026-01-26",
+      "vib": 3.311,
+      "damage": 9.975
+    },
+    {
+      "d": "2026-01-27",
+      "vib": 3.299,
+      "damage": 11.974
+    },
+    {
+      "d": "2026-01-28",
+      "vib": 3.298,
+      "damage": 13.962
+    },
+    {
+      "d": "2026-01-29",
+      "vib": 3.315,
+      "damage": 15.977
+    },
+    {
+      "d": "2026-01-30",
+      "vib": 3.274,
+      "damage": 17.971
+    },
+    {
+      "d": "2026-01-31",
+      "vib": 3.293,
+      "damage": 19.965
+    },
+    {
+      "d": "2026-02-01",
+      "vib": 3.319,
+      "damage": 21.966
+    },
+    {
+      "d": "2026-02-02",
+      "vib": 3.301,
+      "damage": 23.97
+    },
+    {
+      "d": "2026-02-03",
+      "vib": 3.305,
+      "damage": 25.979
+    },
+    {
+      "d": "2026-02-04",
+      "vib": 3.302,
+      "damage": 27.991
+    },
+    {
+      "d": "2026-02-05",
+      "vib": 3.305,
+      "damage": 29.998
+    },
+    {
+      "d": "2026-02-06",
+      "vib": 3.288,
+      "damage": 31.995
+    },
+    {
+      "d": "2026-02-07",
+      "vib": 3.301,
+      "damage": 34.001
+    },
+    {
+      "d": "2026-02-08",
+      "vib": 3.284,
+      "damage": 36.003
+    },
+    {
+      "d": "2026-02-09",
+      "vib": 3.298,
+      "damage": 37.99
+    },
+    {
+      "d": "2026-02-10",
+      "vib": 3.303,
+      "damage": 39.995
+    },
+    {
+      "d": "2026-02-11",
+      "vib": 3.309,
+      "damage": 41.998
+    },
+    {
+      "d": "2026-02-12",
+      "vib": 3.298,
+      "damage": 44.019
+    },
+    {
+      "d": "2026-02-13",
+      "vib": 3.289,
+      "damage": 46.026
+    },
+    {
+      "d": "2026-02-14",
+      "vib": 3.309,
+      "damage": 48.018
+    },
+    {
+      "d": "2026-02-15",
+      "vib": 3.31,
+      "damage": 50.022
+    },
+    {
+      "d": "2026-02-16",
+      "vib": 3.307,
+      "damage": 52.027
+    },
+    {
+      "d": "2026-02-17",
+      "vib": 3.309,
+      "damage": 54.028
+    },
+    {
+      "d": "2026-02-18",
+      "vib": 3.294,
+      "damage": 56.029
+    },
+    {
+      "d": "2026-02-19",
+      "vib": 3.292,
+      "damage": 58.025
+    },
+    {
+      "d": "2026-02-20",
+      "vib": 3.31,
+      "damage": 60.032
+    },
+    {
+      "d": "2026-02-21",
+      "vib": 3.285,
+      "damage": 62.012
+    },
+    {
+      "d": "2026-02-22",
+      "vib": 3.292,
+      "damage": 64.003
+    },
+    {
+      "d": "2026-02-23",
+      "vib": 3.295,
+      "damage": 65.995
+    },
+    {
+      "d": "2026-02-24",
+      "vib": 3.301,
+      "damage": 67.982
+    },
+    {
+      "d": "2026-02-25",
+      "vib": 3.304,
+      "damage": 70.001
+    },
+    {
+      "d": "2026-02-26",
+      "vib": 3.292,
+      "damage": 71.987
+    },
+    {
+      "d": "2026-02-27",
+      "vib": 3.292,
+      "damage": 73.991
+    },
+    {
+      "d": "2026-02-28",
+      "vib": 3.302,
+      "damage": 75.993
+    }
+  ],
+  "maintenance": {
+    "order_id": "PM-4471",
+    "asset_id": "FL-02",
+    "component_id": "main_drive_bearing",
+    "trigger_type": "condition_based",
+    "status": "open",
+    "duration_days": 5,
+    "description": "Main drive bearing and cam follower replacement. Triggered by the ISO 20816-3 severity zone crossing; line down for the full window.",
+    "basis": "ISO 281 / ISO 20816-3"
+  },
+  "oee": {
+    "oee": 83.87,
+    "availability": 85.72,
+    "quality": 98.15,
+    "rate": 100.08,
+    "good_units": 3007024,
+    "days": 31
+  },
+  "scenarios": [
+    {
+      "line_rate_pct": 70,
+      "rul_days": 172.33,
+      "pm_start_day": 173,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 68032,
+      "monthly_units": 2040960,
+      "vibration_mm_s": 1.13,
+      "iso20816_zone": "B",
+      "damage_factor": 0.343,
+      "oee_pct": 59.06
+    },
+    {
+      "line_rate_pct": 71,
+      "rul_days": 165.14,
+      "pm_start_day": 166,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 69004,
+      "monthly_units": 2070120,
+      "vibration_mm_s": 1.152,
+      "iso20816_zone": "B",
+      "damage_factor": 0.358,
+      "oee_pct": 59.9
+    },
+    {
+      "line_rate_pct": 72,
+      "rul_days": 158.35,
+      "pm_start_day": 159,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 69976,
+      "monthly_units": 2099280,
+      "vibration_mm_s": 1.175,
+      "iso20816_zone": "B",
+      "damage_factor": 0.373,
+      "oee_pct": 60.74
+    },
+    {
+      "line_rate_pct": 73,
+      "rul_days": 151.91,
+      "pm_start_day": 152,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 70948,
+      "monthly_units": 2128440,
+      "vibration_mm_s": 1.198,
+      "iso20816_zone": "B",
+      "damage_factor": 0.389,
+      "oee_pct": 61.59
+    },
+    {
+      "line_rate_pct": 74,
+      "rul_days": 145.81,
+      "pm_start_day": 146,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 71919,
+      "monthly_units": 2157570,
+      "vibration_mm_s": 1.221,
+      "iso20816_zone": "B",
+      "damage_factor": 0.405,
+      "oee_pct": 62.43
+    },
+    {
+      "line_rate_pct": 75,
+      "rul_days": 140.01,
+      "pm_start_day": 141,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 72891,
+      "monthly_units": 2186730,
+      "vibration_mm_s": 1.244,
+      "iso20816_zone": "B",
+      "damage_factor": 0.422,
+      "oee_pct": 63.27
+    },
+    {
+      "line_rate_pct": 76,
+      "rul_days": 134.48,
+      "pm_start_day": 135,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 73862,
+      "monthly_units": 2215860,
+      "vibration_mm_s": 1.268,
+      "iso20816_zone": "B",
+      "damage_factor": 0.44,
+      "oee_pct": 64.12
+    },
+    {
+      "line_rate_pct": 77,
+      "rul_days": 129.2,
+      "pm_start_day": 130,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 74832,
+      "monthly_units": 2244960,
+      "vibration_mm_s": 1.292,
+      "iso20816_zone": "B",
+      "damage_factor": 0.458,
+      "oee_pct": 64.96
+    },
+    {
+      "line_rate_pct": 78,
+      "rul_days": 124.11,
+      "pm_start_day": 125,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 75801,
+      "monthly_units": 2274030,
+      "vibration_mm_s": 1.316,
+      "iso20816_zone": "B",
+      "damage_factor": 0.476,
+      "oee_pct": 65.8
+    },
+    {
+      "line_rate_pct": 79,
+      "rul_days": 119.18,
+      "pm_start_day": 120,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 76769,
+      "monthly_units": 2303070,
+      "vibration_mm_s": 1.34,
+      "iso20816_zone": "B",
+      "damage_factor": 0.496,
+      "oee_pct": 66.64
+    },
+    {
+      "line_rate_pct": 80,
+      "rul_days": 114.32,
+      "pm_start_day": 115,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 77734,
+      "monthly_units": 2332020,
+      "vibration_mm_s": 1.365,
+      "iso20816_zone": "B",
+      "damage_factor": 0.517,
+      "oee_pct": 67.48
+    },
+    {
+      "line_rate_pct": 81,
+      "rul_days": 109.45,
+      "pm_start_day": 110,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 78694,
+      "monthly_units": 2360820,
+      "vibration_mm_s": 1.392,
+      "iso20816_zone": "B",
+      "damage_factor": 0.54,
+      "oee_pct": 68.31
+    },
+    {
+      "line_rate_pct": 82,
+      "rul_days": 104.42,
+      "pm_start_day": 105,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 79647,
+      "monthly_units": 2389410,
+      "vibration_mm_s": 1.419,
+      "iso20816_zone": "B",
+      "damage_factor": 0.566,
+      "oee_pct": 69.14
+    },
+    {
+      "line_rate_pct": 83,
+      "rul_days": 99.03,
+      "pm_start_day": 100,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 80586,
+      "monthly_units": 2417580,
+      "vibration_mm_s": 1.45,
+      "iso20816_zone": "B",
+      "damage_factor": 0.597,
+      "oee_pct": 69.95
+    },
+    {
+      "line_rate_pct": 84,
+      "rul_days": 93.04,
+      "pm_start_day": 94,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 81505,
+      "monthly_units": 2445150,
+      "vibration_mm_s": 1.484,
+      "iso20816_zone": "B",
+      "damage_factor": 0.635,
+      "oee_pct": 70.75
+    },
+    {
+      "line_rate_pct": 85,
+      "rul_days": 86.15,
+      "pm_start_day": 87,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 82390,
+      "monthly_units": 2471700,
+      "vibration_mm_s": 1.525,
+      "iso20816_zone": "B",
+      "damage_factor": 0.686,
+      "oee_pct": 71.52
+    },
+    {
+      "line_rate_pct": 86,
+      "rul_days": 78.12,
+      "pm_start_day": 79,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 83221,
+      "monthly_units": 2496630,
+      "vibration_mm_s": 1.576,
+      "iso20816_zone": "B",
+      "damage_factor": 0.757,
+      "oee_pct": 72.24
+    },
+    {
+      "line_rate_pct": 87,
+      "rul_days": 68.87,
+      "pm_start_day": 69,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 83969,
+      "monthly_units": 2519070,
+      "vibration_mm_s": 1.642,
+      "iso20816_zone": "B",
+      "damage_factor": 0.858,
+      "oee_pct": 72.89
+    },
+    {
+      "line_rate_pct": 88,
+      "rul_days": 58.74,
+      "pm_start_day": 59,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 84596,
+      "monthly_units": 2537880,
+      "vibration_mm_s": 1.731,
+      "iso20816_zone": "B",
+      "damage_factor": 1.006,
+      "oee_pct": 73.43
+    },
+    {
+      "line_rate_pct": 89,
+      "rul_days": 48.48,
+      "pm_start_day": 49,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 85059,
+      "monthly_units": 2551770,
+      "vibration_mm_s": 1.848,
+      "iso20816_zone": "B",
+      "damage_factor": 1.219,
+      "oee_pct": 73.84
+    },
+    {
+      "line_rate_pct": 90,
+      "rul_days": 39.06,
+      "pm_start_day": 40,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 85327,
+      "monthly_units": 2559810,
+      "vibration_mm_s": 2.0,
+      "iso20816_zone": "B",
+      "damage_factor": 1.513,
+      "oee_pct": 74.07
+    },
+    {
+      "line_rate_pct": 91,
+      "rul_days": 31.25,
+      "pm_start_day": 32,
+      "lost_days": 0,
+      "production_days": 30,
+      "daily_units": 85404,
+      "monthly_units": 2562120,
+      "vibration_mm_s": 2.184,
+      "iso20816_zone": "B",
+      "damage_factor": 1.892,
+      "oee_pct": 74.14
+    },
+    {
+      "line_rate_pct": 92,
+      "rul_days": 25.3,
+      "pm_start_day": 26,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 85352,
+      "monthly_units": 2133800,
+      "vibration_mm_s": 2.388,
+      "iso20816_zone": "B",
+      "damage_factor": 2.336,
+      "oee_pct": 74.09
+    },
+    {
+      "line_rate_pct": 93,
+      "rul_days": 21.06,
+      "pm_start_day": 22,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 85282,
+      "monthly_units": 2132050,
+      "vibration_mm_s": 2.593,
+      "iso20816_zone": "B",
+      "damage_factor": 2.807,
+      "oee_pct": 74.03
+    },
+    {
+      "line_rate_pct": 94,
+      "rul_days": 18.14,
+      "pm_start_day": 19,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 85306,
+      "monthly_units": 2132650,
+      "vibration_mm_s": 2.778,
+      "iso20816_zone": "B",
+      "damage_factor": 3.259,
+      "oee_pct": 74.05
+    },
+    {
+      "line_rate_pct": 95,
+      "rul_days": 16.15,
+      "pm_start_day": 17,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 85497,
+      "monthly_units": 2137425,
+      "vibration_mm_s": 2.93,
+      "iso20816_zone": "C",
+      "damage_factor": 3.661,
+      "oee_pct": 74.22
+    },
+    {
+      "line_rate_pct": 96,
+      "rul_days": 14.77,
+      "pm_start_day": 15,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 85869,
+      "monthly_units": 2146725,
+      "vibration_mm_s": 3.048,
+      "iso20816_zone": "C",
+      "damage_factor": 4.002,
+      "oee_pct": 74.54
+    },
+    {
+      "line_rate_pct": 97,
+      "rul_days": 13.79,
+      "pm_start_day": 14,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 86398,
+      "monthly_units": 2159950,
+      "vibration_mm_s": 3.137,
+      "iso20816_zone": "C",
+      "damage_factor": 4.286,
+      "oee_pct": 75.0
+    },
+    {
+      "line_rate_pct": 98,
+      "rul_days": 13.06,
+      "pm_start_day": 14,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 87047,
+      "monthly_units": 2176175,
+      "vibration_mm_s": 3.205,
+      "iso20816_zone": "C",
+      "damage_factor": 4.527,
+      "oee_pct": 75.56
+    },
+    {
+      "line_rate_pct": 99,
+      "rul_days": 12.48,
+      "pm_start_day": 13,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 87779,
+      "monthly_units": 2194475,
+      "vibration_mm_s": 3.257,
+      "iso20816_zone": "C",
+      "damage_factor": 4.738,
+      "oee_pct": 76.2
+    },
+    {
+      "line_rate_pct": 100,
+      "rul_days": 12.0,
+      "pm_start_day": 12,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 88568,
+      "monthly_units": 2214200,
+      "vibration_mm_s": 3.3,
+      "iso20816_zone": "C",
+      "damage_factor": 4.928,
+      "oee_pct": 76.88
+    },
+    {
+      "line_rate_pct": 101,
+      "rul_days": 11.58,
+      "pm_start_day": 12,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 89392,
+      "monthly_units": 2234800,
+      "vibration_mm_s": 3.336,
+      "iso20816_zone": "C",
+      "damage_factor": 5.106,
+      "oee_pct": 76.83
+    },
+    {
+      "line_rate_pct": 102,
+      "rul_days": 11.2,
+      "pm_start_day": 12,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 90239,
+      "monthly_units": 2255975,
+      "vibration_mm_s": 3.369,
+      "iso20816_zone": "C",
+      "damage_factor": 5.278,
+      "oee_pct": 76.8
+    },
+    {
+      "line_rate_pct": 103,
+      "rul_days": 10.85,
+      "pm_start_day": 11,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 91100,
+      "monthly_units": 2277500,
+      "vibration_mm_s": 3.399,
+      "iso20816_zone": "C",
+      "damage_factor": 5.446,
+      "oee_pct": 76.78
+    },
+    {
+      "line_rate_pct": 104,
+      "rul_days": 10.53,
+      "pm_start_day": 11,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 91970,
+      "monthly_units": 2299250,
+      "vibration_mm_s": 3.427,
+      "iso20816_zone": "C",
+      "damage_factor": 5.613,
+      "oee_pct": 76.76
+    },
+    {
+      "line_rate_pct": 105,
+      "rul_days": 10.23,
+      "pm_start_day": 11,
+      "lost_days": 5,
+      "production_days": 25,
+      "daily_units": 92846,
+      "monthly_units": 2321150,
+      "vibration_mm_s": 3.455,
+      "iso20816_zone": "C",
+      "damage_factor": 5.781,
+      "oee_pct": 76.76
+    }
+  ],
+  "ontology": {
+    "entities": [
+      {
+        "entity": "Product",
+        "instance": "HS-SPF50-200",
+        "kind": "entity",
+        "bound_table": "dim_product",
+        "bound_column": "sku"
+      },
+      {
+        "entity": "DemandPlan",
+        "instance": "March 2026",
+        "kind": "entity",
+        "bound_table": "fact_demand_plan",
+        "bound_column": "plan_month"
+      },
+      {
+        "entity": "ProductionLine",
+        "instance": "Caldova Suncare Line 3",
+        "kind": "entity",
+        "bound_table": "dim_station",
+        "bound_column": "line_id"
+      },
+      {
+        "entity": "Asset",
+        "instance": "FL-02 Servo Filler",
+        "kind": "asset",
+        "bound_table": "dim_asset",
+        "bound_column": "asset_id"
+      },
+      {
+        "entity": "Component",
+        "instance": "Main drive bearing",
+        "kind": "asset",
+        "bound_table": "dim_asset",
+        "bound_column": "component_id"
+      },
+      {
+        "entity": "ConditionSignal",
+        "instance": "Vibration mm/s RMS",
+        "kind": "signal",
+        "bound_table": "fact_asset_telemetry",
+        "bound_column": "vibration_mm_s"
+      },
+      {
+        "entity": "DegradationModel",
+        "instance": "ISO 281 / ISO 20816-3",
+        "kind": "rule",
+        "bound_table": "fact_asset_telemetry",
+        "bound_column": "damage_consumed_pct"
+      },
+      {
+        "entity": "MaintenancePolicy",
+        "instance": "PM-4471 condition based",
+        "kind": "rule",
+        "bound_table": "dim_maintenance_order",
+        "bound_column": "order_id"
+      },
+      {
+        "entity": "CapacityModel",
+        "instance": "days x rate x OEE",
+        "kind": "rule",
+        "bound_table": "fact_production_daily",
+        "bound_column": "oee_pct"
+      }
+    ],
+    "edges": [
+      {
+        "from_entity": "DemandPlan",
+        "relationship": "requires",
+        "to_entity": "Product"
+      },
+      {
+        "from_entity": "DemandPlan",
+        "relationship": "constrained by",
+        "to_entity": "CapacityModel"
+      },
+      {
+        "from_entity": "Product",
+        "relationship": "produced on",
+        "to_entity": "ProductionLine"
+      },
+      {
+        "from_entity": "ProductionLine",
+        "relationship": "constraint asset",
+        "to_entity": "Asset"
+      },
+      {
+        "from_entity": "ProductionLine",
+        "relationship": "has capacity",
+        "to_entity": "CapacityModel"
+      },
+      {
+        "from_entity": "Asset",
+        "relationship": "has component",
+        "to_entity": "Component"
+      },
+      {
+        "from_entity": "Asset",
+        "relationship": "emits",
+        "to_entity": "ConditionSignal"
+      },
+      {
+        "from_entity": "Component",
+        "relationship": "degrades per",
+        "to_entity": "DegradationModel"
+      },
+      {
+        "from_entity": "ConditionSignal",
+        "relationship": "feeds",
+        "to_entity": "DegradationModel"
+      },
+      {
+        "from_entity": "DegradationModel",
+        "relationship": "triggers",
+        "to_entity": "MaintenancePolicy"
+      },
+      {
+        "from_entity": "MaintenancePolicy",
+        "relationship": "removes days from",
+        "to_entity": "CapacityModel"
+      }
+    ]
+  },
+  "stations": [
+    {
+      "station_tag": "RM-01",
+      "station_name": "Raw Material Dispensing",
+      "zone": "Warehouse",
+      "area": "compounding",
+      "is_constraint": 0
+    },
+    {
+      "station_tag": "PV-01",
+      "station_name": "Oil & Water Phase Vessels",
+      "zone": "Compounding",
+      "area": "compounding",
+      "is_constraint": 0
+    },
+    {
+      "station_tag": "EM-01",
+      "station_name": "Vacuum Emulsifier",
+      "zone": "Compounding",
+      "area": "compounding",
+      "is_constraint": 0
+    },
+    {
+      "station_tag": "QC-01",
+      "station_name": "Bulk Hold & QC Release",
+      "zone": "Laboratory",
+      "area": "quality",
+      "is_constraint": 0
+    },
+    {
+      "station_tag": "FL-02",
+      "station_name": "Servo Piston Filler",
+      "zone": "Packing hall",
+      "area": "packing",
+      "is_constraint": 1
+    },
+    {
+      "station_tag": "CP-01",
+      "station_name": "Capper & Induction Sealer",
+      "zone": "Packing hall",
+      "area": "packing",
+      "is_constraint": 0
+    },
+    {
+      "station_tag": "LB-01",
+      "station_name": "Wrap Labeller & Coder",
+      "zone": "Packing hall",
+      "area": "packing",
+      "is_constraint": 0
+    },
+    {
+      "station_tag": "PK-01",
+      "station_name": "Cartoner & Palletiser",
+      "zone": "Despatch",
+      "area": "packing",
+      "is_constraint": 0
+    },
+    {
+      "station_tag": "CIP-01",
+      "station_name": "CIP Skid & Utilities",
+      "zone": "Technical",
+      "area": "utilities",
+      "is_constraint": 0
+    }
+  ]
+}

@@ -10,3 +10,9 @@ d-*.png
 g-*.png
 bright.cjs
 b-*.png
+
+infra/.env
+infra/data/
+fcheck.cjs
+verify.cjs
+f-*.png

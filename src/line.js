@@ -218,6 +218,41 @@ export const DEMAND = {
   safetyStockDays: 3,
 };
 
+/**
+ * Rebind the model to values read from the Fabric lakehouse.
+ * Called once at startup after the snapshot loads; everything downstream then
+ * computes from real data rather than the built-in constants.
+ */
+export function applyFabric(F) {
+  if (!F || !F.loaded) return false;
+  if (F.demand) {
+    DEMAND.baseline = F.demand.baseline;
+    DEMAND.campaignUplift = F.demand.campaignUplift;
+  }
+  if (F.asset) {
+    if (isFinite(F.asset.damageConsumed)) DEFAULTS.damageConsumed = F.asset.damageConsumed;
+    if (isFinite(F.asset.kneePct)) DEGRADATION.kneePct = F.asset.kneePct;
+    if (isFinite(F.asset.ratedCapacity)) DEFAULTS.ratedBpm = F.asset.ratedCapacity;
+  }
+  if (F.product) {
+    PRODUCT.sku = F.product.sku;
+    PRODUCT.name = F.product.name;
+    PRODUCT.pack = F.product.pack;
+    PRODUCT.unitPrice = F.product.unitPrice;
+    PRODUCT.unitMargin = F.product.unitMargin;
+    DEFAULTS.casePack = F.product.casePack;
+    DEFAULTS.palletPattern = F.product.casesPerPallet;
+  }
+  if (F.maintenance && isFinite(F.maintenance.durationDays)) {
+    PM.durationDays = F.maintenance.durationDays;
+    PM.orderId = F.maintenance.id;
+  }
+  return true;
+}
+
+/** Mutable maintenance-order facts, bound from the lakehouse when available. */
+export const PM = { orderId: 'PM-4471', durationDays: PM_DURATION_DAYS };
+
 // ---------------------------------------------------------------------------
 // Degradation model for FL-02 (this is what the ontology query walks)
 // ---------------------------------------------------------------------------
@@ -345,7 +380,7 @@ export function simulate(p) {
   // pure consequence of how hard the line has been run — no override flag — so
   // moving the speed setpoint visibly moves the maintenance window on the plan.
   const pmStartDay = Math.max(1, Math.ceil(rulDays));
-  const pmEndDay = pmStartDay + PM_DURATION_DAYS - 1;
+  const pmEndDay = pmStartDay + PM.durationDays - 1;
   const lostDays = Math.max(0,
     Math.min(HORIZON_DAYS, pmEndDay) - Math.max(1, pmStartDay) + 1);
   const pmInHorizon = lostDays > 0;
